@@ -1,0 +1,55 @@
+# SEO settings
+title: "RTFM"
+description: "Brazilian CTF Team"
+keywords: "ctf team, hack, hacking, capture the flag, writeup"
+url: "https://rtfm-ctf.github.io" # Site url (default: "")
+#baseurl: "" # Apply repo name if use it under gh-pages branch
+baseurl: null # Apply null if repo name is something like username.github.io
+
+# Site author info
+author:
+  name: "Red Team Freakin' Maniacs"
+  email: rtfm-ctf@rtfm-ctf.org
+  nickname: "RTFM"
+  display_bio: true
+  website: http://rtfm-ctf.github.io
+
+# Social settings
+og_locale: "en_US"
+display_social_icons: true
+github:
+  username: rtfm-ctf
+facebook:
+  profile_url: https://www.facebook.com/RedTeamFreakinManiacs
+twitter:
+  username: rtfmctf
+
+# Build settings
+source: ./
+destination: ./_site
+
+permalink: /:year/:title
+markdown: kramdown
+highlighter: rouge
+
+timezone: America/Sao_Paulo
+
+exclude: ["README.md", "LICENSE.md", "CHANGELOG.md"]
+
+# Site configurations
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: all
+  ignore:
+    envs: [local]
+  blanklines: false
+  profile: false
+  startings: [html, head, body]
+
+sass:
+  sass_dir: assets/scss
+  style: compressed # expanded
+
+gems:
+  - jekyll-sitemap
