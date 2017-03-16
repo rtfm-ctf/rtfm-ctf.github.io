@@ -1,0 +1,14 @@
+<div class="footer">
+	<div class="hrline"></div>
+	<div class="copyright"><br>&copy; {{ site.time | date: "%Y" }} {{ site.author.name }}</div>
+</div>
+
+<script>
+$(window).load(function() {
+	$('.grid').masonry({
+		itemSelector: '.grid-item',
+		columnWidth: '.grid-sizer',
+		gutter: 10
+	});
+});
+</script>
