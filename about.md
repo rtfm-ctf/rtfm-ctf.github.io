@@ -23,15 +23,12 @@ keywords: about rtfm ctf hacking
 	Gilson <b>n1ckyr0m3r0</b><br/>
 	Henrique <b>Kamus Hadenes</b><br/>
 	Jhonatan <b>jh0n</b><br/>
-	Leonardo <b>Sl4y3r_0wn3r</b><br/>
-	Lucas <b>bl4ck_pir4t3</b><br/>
 	Matheus <b>G4mbl3r</b><br/>
 	Rafael <b>ChOkO</b><br/>
 	Rafinha <b>p4nz3r</b><br/>
-	Raphael <b>raphamaster</b><br/>
 	Ricardo <b>L0gan</b><br/>
 	Thiago <b>Slack</b><br/>
-	Victor <b>Xop</b><br/>
+	Victor <b>Xopis</b><br/>
 	Willian <b>B1zzy</b><br/>
 	Ygor <b>r0gy153</b><br/>
 </div>
