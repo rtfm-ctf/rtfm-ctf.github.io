@@ -1,14 +1,14 @@
 ---
 layout: post
-title: AusCERT 2015 - F0RG0TT3NP@$$W0RD (Forensics - 200 poins) 
+title: AusCERT 2015 - F0RG0TT3NP@$$W0RD (Forensics - 200 points) 
 description: Challenge F0RG0TT3NP@$$W0RD of AusCERT 2015 CTF
 keywords: ppc, prog, rtfm, auscert 2015, warlock gam3z, writeup
 tags: [AusCERT]
 ---
 
 * **CTF:** AusCERT 2015 CTF
-* **Challenge:** F0RG0TT3NP@$$W0RD (level 2)
-* **Category:** Forensics
+* **Challenge:** F0RG0TT3NP@$$W0RD
+* **Category:** Forensics (200 points)
 * **Author:** warl0ck gam3z
 * **Solved by:** RTFM[ChOkO] 
 ****  
