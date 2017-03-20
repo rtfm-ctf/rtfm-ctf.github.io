@@ -23,7 +23,7 @@ Please review and fill in the details here
 Realizamos o download do arquivo e fizemos sua extração com a senha fornecida na descrição:  
 ![extracting](https://ctf-br.org/wp-content/uploads/2015/06/extract.png "extract")  
  
-O arquivo Build-2102.vmem trata-se de um arquivo de paginação de memória do VMware Worksation com cerca de 1.0 Gb de tamanho e composto de mais de 4 milhões de linhas. Para adquirirmos a flag, necessitamos fornecer dados corretos na página de verificação (https://warl0ck.gam3z.com/auscert/wgzCh3ck3r.aspx?accesscode=f0rg0tt3np@$$w0rd), que solicita 3 valores, respectivamente: Username, Password e Message.
+O arquivo Build-2102.vmem trata-se de um arquivo de paginação de memória do VMware Worksation com cerca de 1.0 Gb de tamanho e composto de mais de 4 milhões de linhas. Para adquirirmos a flag, necessitamos fornecer dados corretos na página de verificação <https://warl0ck.gam3z.com/auscert/wgzCh3ck3r.aspx?accesscode=f0rg0tt3np@$$w0rd>, que solicita 3 valores, respectivamente: Username, Password e Message.
 
 Analisamos as strings do dump de memória da VMware filtrando pela palavra “t0k3n”, o que nos retorna 5 resultados. Como necessitamos de três valores, analisamos as palavras contidas antes e depois das ocorrências de t0k3n e uma tripla nos chama a atenção:  
 ![flag](https://ctf-br.org/wp-content/uploads/2015/06/flag1-1024x341.png "Flag")  
