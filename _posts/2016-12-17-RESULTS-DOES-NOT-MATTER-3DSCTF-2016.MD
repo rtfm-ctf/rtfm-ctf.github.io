@@ -7,7 +7,7 @@ tags: [3DSCTF]
 ---
  
 * **CTF:** 3DSCTF 2016 - <https://3dsctf.win>
-* **Challenge:** Results Does Not Matter (level 1)
+* **Challenge:** Results Does Not Matter (PPC - level 1)
 * **Author:** Eduardo EASH
 
 ****
@@ -20,6 +20,7 @@ There was a hint on the bottom: "Use 32 bit"
 He have no idea what's this about.  
 Can you help him to reveal the flag?  
 Flag format: 3DS{sha256(FLAG)}  
+
 [PT-BR]  
 O papai Noel recebeu uma papel com um desenho estranho.  
 No rodape estava escrito: "Use 32 bits"  
@@ -31,7 +32,7 @@ Flag no formato: 3DS{sha256(FLAG)}
 ****
 
 Temos o seguinte circuito:  
-![Results Does Not Matter - 3DSCTF 2016 - EASHian Circuit :3](https://github.com/rtfm-ctf/rtfm-ctf.github.io/blob/master/_includes/3DS_RESULTS_CHALL.PNG "Challenge")
+![Results Does Not Matter - 3DSCTF 2016 - EASHian Circuit :3](https://github.com/rtfm-ctf/rtfm-ctf.github.io/blob/master/assets/3DS_RESULTS_CHALL.PNG "Challenge")
 
 O mestre EASH, aka: Papai Noel :3 nos disse que era para utilizar 32-bits, então limitaremos nosso brute conforme orientação superior (brutespace = 2 ^ 32). Montei um script em python a seguir para me ajudar a encontrar o valor correto que fornece a saída correta para que o circuito seja mais 1337) para a tão esperada flag.  
 
