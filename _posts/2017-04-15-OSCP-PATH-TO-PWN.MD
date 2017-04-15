@@ -5,7 +5,7 @@ description: Pwning OSCP -: curso da OffSec :-
 keywords: oscp, pwk, rtfm, offsec, review, away
 tags: [OSCP]
 ---
-
+ 
 ### Sobre o PWK - Path to OSCP
 
 Bom, resolvi escrever esse pequeno texto e dar minha opinão sobre o reconhecido curso da Offensive Security, o PWK, um dos cursos mais desafiadores aí entre os cursos de intro no desenvolvimento das técnicas que um profissional precisa ter para executar testes de invação (pentest).
