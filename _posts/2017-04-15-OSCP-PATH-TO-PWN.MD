@@ -62,7 +62,8 @@ Eu trabalho há um tempo com segurança da informação e já trabalhei com prog
 
 Além desses livros eu recomendo ler artigos e estar atualizado com o que está em discussão pela comunidade.
 
-No geral o curso é muito bom e realmente te faz sentir que uma meta foi atingida, mas também não é nada muito complexo e eu conheço muitas pessoas que manjam muito mais do que é cobrado no curso também e que ficam dizendo que o curso é difícil quando na verdade não é tão complexo. Meu objetivo com esse post foi mais de deixar meu relato e meu agradecimento ao pessoal da Offensive Security (porque sempre tiveram no IRC pra me dizer "try harder", bando de #@$#@!@#!@ :P), espero também que possa de alguma forma ter ajudado qualquer pessoa atrás de informações sobre o curso, mesmo sabendo que já existem muitos posts sobre o curso na internet, eu decidi por escrever esse em pt_br para galera pt_br que quer matar esse chall. Não me fez melhor que ninguém e não vai fazer ninguém melhor que ninguém na cena de sec.
+No geral o curso é muito bom e realmente te faz sentir que uma meta foi atingida, mas também não é nada muito complexo e eu conheço muitas pessoas que manjam muito mais do que é cobrado no curso também e que ficam dizendo que o curso é difícil quando na verdade não é tão complexo. Meu objetivo com esse post foi mais de deixar meu relato e meu agradecimento ao pessoal da Offensive Security (porque sempre tiveram no IRC pra me dizer "try harder", bando de #@$#@!@#!@ :P), espero também que possa de alguma forma ter ajudado qualquer pessoa atrás de informações sobre o curso, mesmo sabendo que já existem muitos posts sobre o curso na internet, eu decidi por escrever esse em pt_br para galera pt_br que quer matar esse chall. Não me fez melhor que ninguém e não vai fazer ninguém melhor que ninguém na cena de sec mas é uma certificação bem diferente das outras.
+
 away.ca
 
 outros reviews:
