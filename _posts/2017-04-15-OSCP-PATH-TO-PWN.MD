@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Sobre o PWK - Path to OSCP
-date:   2016-04-15 16:16:01 -0600
+date:   2017-04-15 16:16:01 -0600
 description: Pwning OSCP - Curso da OffensiveSecurity
 keywords: oscp, pwk, rtfm, offsec, review, away
 tags: [OSCP]
