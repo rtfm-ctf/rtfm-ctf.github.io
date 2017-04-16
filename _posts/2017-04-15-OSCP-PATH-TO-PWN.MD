@@ -68,8 +68,11 @@ No geral o curso é muito bom e realmente te faz sentir que uma meta foi atingid
 away.ca
 
 outros reviews:
+
 http://blog.andradesoto.com.br/archives/2013/08/19/certificacao-oscp/
+
 http://buffered.io/posts/oscp-and-me/
+
 
 [Metasploit: The Penetration Tester's Guide]: <https://www.amazon.com/Metasploit-Penetration-Testers-David-Kennedy/dp/159327288X/ref=sr_1_1?ie=UTF8&qid=1492297200&sr=8-1&keywords=metasploit>
 
