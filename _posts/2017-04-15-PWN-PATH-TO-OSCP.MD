@@ -22,8 +22,9 @@ Não é um curso indicado para quem não consegue aprender por conta e nunca vai
 
 ### Tempo de Curso
 Eu passei uns meses aguardando o melhor momento para fazer o curso, pelos reviews que lemos em inglês podemos chegar a conclusão de que há uma necessidade muito grande de dedicação de horas para completar os desafios, então escolhi e recomendo pegar o período de férias de trabalho/faculdade/escola.
--> Agendei o inicio do curso para 25 de dezembro de 2016, reservando 60 dias de curso, como o pessoal indica.
--> Durante as férias, dediquei de 8 a 10 horas do dia pwning no laboratório. As férias duraram 2 semanas, logo em seguida tive que voltar ao trabalho, então passei a dedicar de 5 a 6 horas por dia. Os fins de semana foram todos fazendo lab. Levando esse ritmo é possível comprometer todos os alvos disponíveis no laboratório com uma sobra de 2 semanas para acabar o tempo de acesso.
+*  Agendei o inicio do curso para 25 de dezembro de 2016, reservando 60 dias de curso, como o pessoal indica.
+*  Durante as férias, dediquei de 8 a 10 horas do dia pwning no laboratório. As férias duraram 2 semanas, logo em seguida tive que voltar ao trabalho, então passei a dedicar de 5 a 6 horas por dia. Os fins de semana foram todos fazendo lab. 
+Levando esse ritmo é possível comprometer todos os alvos disponíveis no laboratório com uma sobra de 2 semanas para acabar o tempo de acesso.
 
 ### A prova
 Não posso dar muitos detalhes sobre a prova, o que posso afirmar com certeza é que foi a prova mais divertida que eu já fiz até o momento. É melhor do que qualquer prova escrita/assinalada, é o tipo de prova que te faz sentir, ao final, que você realmente superou uma barreira, é sensacional. A prova tem ao total 48 horas. São 24 horas dedicadas a uma prova prática baseada no laboratório do curso, em seguida são mais 24 horas dedicadas a elaboração de um relatório detalhado das atividades executadas na prova e dos resultados obtidos.
