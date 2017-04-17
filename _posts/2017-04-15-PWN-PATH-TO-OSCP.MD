@@ -6,50 +6,49 @@ keywords: oscp, pwk, rtfm, offsec, review, away
 tags: [OSCP]
 ---
  
-### Sobre o PWK - Path to OSCP
+### Sobre o PWK [OSCP] - The [a]way to success!
 
-Bom, resolvi escrever esse pequeno texto e dar minha opinião sobre o reconhecido curso da Offensive Security, o PWK, um dos cursos mais desafiadores aí entre os cursos de "intro" no desenvolvimento das técnicas que um profissional precisa ter para executar testes de invasão (pentest).
-Primeiramente, se o leitor pensa que este é um curso e prova para poucos e que ele tem um nível de dificuldade muito elevado, em resposta curta podemos afirmar que talvez e não.
-Na realidade o curso não é difícil, ele é complicado, trabalhoso e exige boas horas investidas para conseguir resultado. A prova é difícil mas apenas se você não se preparar bem, não é uma prova impossível (na realidade, é de longe a prova mais divertida que eu já fiz até o momento). É um curso muito interessante e que valeu muito o investimento, então recomendo, por exemplo, que entre CEH e OSCP as pessoas escolham pelo OSCP.
+Bom... resolvi escrever esse pequeno texto e dar minha opinião sobre o reconhecido curso da Offensive Security, o PWK, um dos cursos mais desafiadores aí entre os cursos de “intro” no desenvolvimento das técnicas que um profissional precisa ter para executar testes de invasão (pentest). 
+Primeiramente, se o leitor pensa que este é um curso e prova para poucos e que ele tem um nível de dificuldade muito elevado, em resposta curta podemos afirmar que talvez e não. Na realidade o curso não é difícil. Ele é complicado, trabalhoso e exige boas horas investidas para conseguir resultado. A prova é difícil, mas apenas se você não se preparar bem. Não é uma prova impossível (na realidade, é de longe a prova mais divertida que eu já fiz até o momento). É um curso muito interessante e que valeu muito o investimento, então recomendo, por exemplo, que entre CEH e OSCP as pessoas escolham pelo OSCP.
 
 ### O Curso
-O curso nada mais é que a reserva de um período para acesso ao laboratório de treinamento (contendo em torno de 60 sistemas vulneráveis) + material de estudos (vídeos e PDF).
-Não tem instrutor nenhum, apenas você e o suporte da OffSec.
-O material é bem completo mas o conhecimento aplicado no laboratório exige uns 40% a mais do que está no material.
-Não é um curso indicado para quem não consegue aprender por conta e nunca vai ser, a ideia por trás do curso é que você consiga entender conceitos e adaptar aos diferentes cenários que um pentester pode enfrentar, sem que alguém diga o que deve ser feito. Um outro detalhe importante é que há uma recomendação forte de que o estudante saiba razoavelmente Inglês, já que tudo no curso é em Inglês.
+O curso nada mais é que a reserva de um período para acesso ao laboratório de treinamento (contendo em torno de 60 sistemas vulneráveis) + material de estudos (vídeos e PDF). 
+Não tem instrutor nenhum, apenas você e o suporte da OffSec. 
+O material é bem completo mas o conhecimento aplicado no laboratório exige uns 40% a mais do que está no material. Não é um curso indicado para quem não consegue aprender por conta (e nunca vai ser). A ideia por trás do curso é que você consiga entender conceitos e adaptar aos diferentes cenários que um pentester pode enfrentar, sem que alguém diga o que deve ser feito. Um outro detalhe importante é que há uma recomendação forte de que o estudante saiba razoavelmente Inglês, já que tudo no curso é 100% na língua inglesa.
 
 ![PWK Laboratório](https://www.offensive-security.com/images/pwk-lab-net-intro1.png)
 
 ### Tempo de Curso
-Eu passei uns meses aguardando o melhor momento para fazer o curso, pelos reviews que lemos em inglês podemos chegar a conclusão de que há uma necessidade muito grande de dedicação de horas para completar os desafios, então escolhi e recomendo pegar o período de férias de trabalho/faculdade/escola.
+Eu passei alguns meses aguardando o melhor momento para fazer o curso, pelos reviews que lemos em inglês podemos chegar à conclusão de que há uma necessidade muito grande de dedicação de horas para completar os desafios, então escolhi, e recomendo, pegar o período de férias de trabalho/faculdade/escola.
 *  Agendei o inicio do curso para 25 de dezembro de 2016, reservando 60 dias de curso, como o pessoal indica.
 *  Durante as férias, dediquei de 8 a 10 horas do dia pwning no laboratório. As férias duraram 2 semanas, logo em seguida tive que voltar ao trabalho, então passei a dedicar de 5 a 6 horas por dia. Os fins de semana foram todos fazendo lab. 
-Levando esse ritmo é possível comprometer todos os alvos disponíveis no laboratório com uma sobra de 2 semanas para acabar o tempo de acesso.
+Levando esse ritmo, é possível comprometer todos os alvos disponíveis no laboratório com uma sobra de 2 semanas para acabar o tempo de acesso.
 
 ### A prova
-Não posso dar muitos detalhes sobre a prova, o que posso afirmar com certeza é que foi a prova mais divertida que eu já fiz até o momento. É melhor do que qualquer prova escrita/assinalada, é o tipo de prova que te faz sentir, ao final, que você realmente superou uma barreira, é sensacional. A prova tem ao total 48 horas. São 24 horas dedicadas a uma prova prática baseada no laboratório do curso, em seguida são mais 24 horas dedicadas a elaboração de um relatório detalhado das atividades executadas na prova e dos resultados obtidos.
+Não posso dar muitos detalhes sobre a prova, o que posso afirmar com certeza é que foi a prova mais divertida que eu já fiz até o momento. É melhor do que qualquer prova escrita/assinalada, é o tipo de prova que te faz sentir, ao final, que você realmente superou uma barreira, e isso é sensacional. A prova tem o total 48 horas. São 24 horas dedicadas a uma prova prática baseada no laboratório do curso, em seguida, mais 24 horas dedicadas a elaboração de um relatório detalhado das atividades executadas na prova e dos resultados obtidos.
 
-Eu tive que fazer a prova duas vezes, na primeira eu cometi alguns erros e acabei não atingido a nota que precisava. O principal erro foi não documentar devidamente o processo todo. O segundo erro foi não ter "try harder" e ter apagado no meio da prova, perdendo muito tempo.
+Eu tive que fazer a prova duas vezes. Na primeira, eu cometi alguns erros e acabei não atingido a nota que precisava. O principal erro foi não documentar devidamente o processo todo. O segundo erro foi não ter “try harder” e ter apagado no meio da prova, perdendo muito tempo. 
 Cronograma básico do que rolou:
 
 | Hr | comment |
 | ------ | ------ |
-| 10:00 am | Comecei a prova |
-| 11:50 am | Marquei 30% da pontuação |
-| 16:00 pm | Marquei 60% da pontuação |
-| 22:00 pm | Saí do computador pra andar e descansar |
+| 10:00 am | Comecei a prova. |
+| 11:50 am | Marquei 30% da pontuação. |
+| 16:00 pm | Marquei 60% da pontuação. |
+| 22:00 pm | Saí do computador pra andar e descansar. |
 | 00:30 am | Capotei. |
-| 05:40 am | Voltei pra prova |
-| 06:30 am | Marquei 70% da pontuação (agora eu conseguiria passar) |
-| 09:45 am | Fim da prova |
+| 05:40 am | Voltei pra prova. |
+| 06:30 am | Marquei 70% da pontuação (agora eu conseguiria passar). |
+| 09:45 am | Fim da prova. |
 
-Depois dessas 24 hrs eu voltei pra documentar já tendo em mente que talvez tivesse que fazer novamente a prova. Mas ainda valeu ter enviado a documentação, o pessoal me deu uma resposta compreensiva sobre o que eu deveria melhorar ou tomar cuidado na próxima prova.
+Depois dessas 24 hrs eu voltei para documentar, já tendo em mente que talvez tivesse que fazer novamente a prova. Apesar de saber que talvez não tinha passado, ainda valeu a pena ter enviado toda a documentação. O pessoal me deu uma resposta compreensiva sobre o que eu deveria melhorar ou tomar cuidado na próxima prova.
 
-Na segunda tentativa eu comecei a prova as 10am e fiz mais da pontuação que precisava em 12 horas, depois documentei com um detalhamento maior.
-A resposta pode vir em até 3 dias úteis mas normalmente vem no dia seguinte já.
+Na segunda tentativa, eu comecei a prova as 10am e fiz mais da pontuação que precisava em menos de 12 horas, depois documentei tudo com maior profundidade e detalhamento. 
+A resposta pode vir em até 3 dias úteis, mas normalmente já vem no dia seguinte.
 
-Meu conhecimento e experiência:
-Eu trabalho há um tempo com segurança da informação e já trabalhei com programação e com redes no passado então tenho uma certa facilidade em entender cenários e códigos com até certo grau de complexidade. Entendo que todos que gostam muito de estudar e se dediquem de verdade podem fazer o curso desde que estejam dispostos a perder algumas noites de sono. Então, se estiver interessado em fazer o curso, o mais importante é ter um bom entendimento de alguns conceitos e de técnicas de exploração. Algumas das fontes que podem ser utilizadas como referência do que é preciso saber:
+
+Meu conhecimento e experiência: 
+Eu trabalho há um tempo com segurança da informação e já trabalhei com programação e com redes no passado, então tenho uma certa facilidade em entender cenários e códigos com até certo grau de complexidade. Entendo a que todos que gostam muito de estudar e que se dediquem de verdade possam fazer o curso, desde que estejam dispostos a perder algumas noites de sono. Então, se estiver interessado em fazer o curso, o mais importante é ter um bom entendimento de alguns conceitos e de técnicas de exploração. Algumas das fontes que podem ser utilizadas como referência do que é preciso saber:
 
 * [Metasploit: The Penetration Tester's Guide] 
 
@@ -61,9 +60,10 @@ Eu trabalho há um tempo com segurança da informação e já trabalhei com prog
 
 * [The Web Application Hacker's Handbook: Finding and Exploiting Security Flaws]
 
-Além desses livros eu recomendo ler artigos e estar atualizado com o que está em discussão pela comunidade.
+Além desses livros, eu recomendo ler artigos e estar atualizado com o que está em discussão pela comunidade.
 
-No geral o curso é muito bom e realmente te faz sentir que uma meta foi atingida, mas também não é nada muito complexo e eu conheço muitas pessoas que manjam muito mais do que é cobrado no curso também e que ficam dizendo que o curso é difícil quando na verdade não é tão complexo. Meu objetivo com esse post foi mais de deixar meu relato e meu agradecimento ao pessoal da Offensive Security (porque sempre tiveram no IRC pra me dizer "try harder", bando de #@$#@!@#!@ :P), espero também que possa de alguma forma ter ajudado qualquer pessoa atrás de informações sobre o curso, mesmo sabendo que já existem muitos posts sobre o curso na internet, eu decidi por escrever esse em pt_br para galera pt_br que quer matar esse chall. Não me fez melhor que ninguém e não vai fazer ninguém melhor que ninguém na cena de sec mas é uma certificação bem diferente das outras.
+No geral, o curso é muito bom e realmente te faz sentir que uma meta foi atingida, mas também não é nada muito complexo. Eu conheço muitas pessoas que manjam muito mais do que é cobrado no curso e que ficam dizendo que o curso é difícil, quando na verdade não é tão complexo assim. Meu objetivo com esse post foi deixar meu relato e meu agradecimento ao pessoal da Offensive Security (porque sempre estiveram no IRC pra me dizer “try harder”, bando de #@$#@!@#!@ :P). Espero também que eu possa, de alguma forma, ter ajudado qualquer pessoa atrás de informações sobre o curso, mesmo sabendo que já existem muitos posts sobre o curso na internet, eu decidi escrever esse em pt_br para galera pt_br que quer matar esse chall. Não me fez melhor que ninguém e não vai fazer ninguém melhor que ninguém. Na cena de sec, a OSCP é uma certificação bem diferente das outras e vale a pena estudar.
+
 
 away.ca
 
