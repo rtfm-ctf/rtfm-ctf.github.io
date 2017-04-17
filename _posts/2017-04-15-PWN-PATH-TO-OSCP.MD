@@ -46,7 +46,7 @@ Cronograma básico do que rolou:
 Depois dessas 24 hrs eu voltei pra documentar já tendo em mente que talvez tivesse que fazer novamente a prova. Mas ainda valeu ter enviado a documentação, o pessoal me deu uma resposta compreensiva sobre o que eu deveria melhorar ou tomar cuidado na próxima prova.
 
 Na segunda tentativa eu comecei a prova as 10am e fiz mais da pontuação que precisava em 12 horas, depois documentei com um detalhamento maior.
-A reposta pode vir em até 3 dias úteis mas normalmente vem no dia seguinte já.
+A resposta pode vir em até 3 dias úteis mas normalmente vem no dia seguinte já.
 
 Meu conhecimento e experiência:
 Eu trabalho há um tempo com segurança da informação e já trabalhei com programação e com redes no passado então tenho uma certa facilidade em entender cenários e códigos com até certo grau de complexidade. Entendo que todos que gostam muito de estudar e se dediquem de verdade podem fazer o curso desde estejam dispostos a perder muitas noites de sono e paciência. Então se você estiver interessado em fazer o curso o mais importante é ter um bom entendimento de alguns conceitos e de técnicas de exploração. Algumas das fontes que podem ser utilizadas como referência do que é preciso saber:
