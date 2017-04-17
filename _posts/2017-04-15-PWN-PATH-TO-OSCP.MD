@@ -13,7 +13,7 @@ Primeiramente, se o leitor pensa que este é um curso e prova para poucos e que 
 Na realidade o curso não é difícil, ele é complicado, trabalhoso e exige boas horas investidas para conseguir resultado. A prova é difícil mas apenas se você não se preparar bem, não é uma prova impossível (na realidade, é de longe a prova mais divertida que eu já fiz até o momento). É um curso muito interessante e que valeu muito o investimento, então recomendo, por exemplo, que entre CEH e OSCP as pessoas escolham pelo OSCP.
 
 ### O Curso
-O curso nada mais é que a reserva de um período para cesso ao laboratório de treinamento (contendo em torno de 60 sistemas vulneráveis) + material de estudos.
+O curso nada mais é que a reserva de um período para acesso ao laboratório de treinamento (contendo em torno de 60 sistemas vulneráveis) + material de estudos (vídeos e PDF).
 Não tem instrutor nenhum, apenas você e o suporte da OffSec.
 O material é bem completo mas o conhecimento aplicado no laboratório exige uns 40% a mais do que está no material.
 Não é um curso indicado para quem não consegue aprender por conta e nunca vai ser, a ideia por trás do curso é que você consiga entender conceitos e adaptar aos diferentes cenários que um pentester pode enfrentar, sem que alguém diga o que deve ser feito. Um outro detalhe importante é que há uma recomendação forte de que o estudante saiba razoavelmente Inglês, já que tudo no curso é em Inglês.
