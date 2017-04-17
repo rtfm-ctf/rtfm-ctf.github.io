@@ -65,6 +65,6 @@ for flag in xrange(brutespace):
 	#print "%s\t%s" % (flag,f3)
 	if f3 == 1337:
 		sha=sha256(str(flag))
-		print '%s \t 3DS{%s}' % (flag,sha)
+		print '%s \t 3DS { % s}' % (flag,sha)
                 break
 ```  
