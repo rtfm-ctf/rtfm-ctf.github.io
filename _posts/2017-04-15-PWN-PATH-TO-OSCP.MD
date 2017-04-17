@@ -8,7 +8,7 @@ tags: [OSCP]
  
 ### Sobre o PWK - Path to OSCP
 
-Bom, resolvi escrever esse pequeno texto e dar minha opinão sobre o reconhecido curso da Offensive Security, o PWK, um dos cursos mais desafiadores aí entre os cursos de intro no desenvolvimento das técnicas que um profissional precisa ter para executar testes de invação (pentest).
+Bom, resolvi escrever esse pequeno texto e dar minha opinião sobre o reconhecido curso da Offensive Security, o PWK, um dos cursos mais desafiadores aí entre os cursos de "intro" no desenvolvimento das técnicas que um profissional precisa ter para executar testes de invasão (pentest).
 Primeiramente, se o leitor pensa que este é um curso e prova para poucos e que ele tem um nível de dificuldade muito elevado, em resposta curta podemos afirmar que talvez e não.
 Na realidade o curso não é difícil, ele é complicado, trabalhoso e exige boas horas investidas para conseguir resultado. A prova é difícil mas apenas se você não se preparar bem, não é uma prova impossível (na realidade, é de longe a prova mais divertida que eu já fiz até o momento). É um curso muito interessante e que valeu muito o investimento, então recomendo, por exemplo, que entre CEH e OSCP as pessoas escolham pelo OSCP.
 
@@ -43,13 +43,13 @@ Cronograma básico do que rolou:
 | 06:30 am | Marquei 70% da pontuação (agora eu conseguiria passar) |
 | 09:45 am | Fim da prova |
 
-Depois dessas 24 hrs eu voltei pra documentar já tendo em mente que talvez tivesse que fazer novamente a prova. Mas ainda valeu ter enviado a documentação, o pessoal me deu uma resposta comrpeensiva sobre o que eu deveria melhorar ou tomar cuidado na próxima prova.
+Depois dessas 24 hrs eu voltei pra documentar já tendo em mente que talvez tivesse que fazer novamente a prova. Mas ainda valeu ter enviado a documentação, o pessoal me deu uma resposta compreensiva sobre o que eu deveria melhorar ou tomar cuidado na próxima prova.
 
 Na segunda tentativa eu comecei a prova as 10am e fiz mais da pontuação que precisava em 12 horas, depois documentei com um detalhamento maior.
 A reposta pode vir em até 3 dias úteis mas normalmente vem no dia seguinte já.
 
 Meu conhecimento e experiência:
-Eu trabalho há um tempo com segurança da informação e já trabalhei com programação e com redes no passado então tenho uma certa facilidade em entender cenários e códigos com até certo grau de complexidade. Entendo que todos que gostam muito de estudar e se dediquem de verdade podem fazer o curso desde estejam dispostos a perder muitas noites de sono e paciência. Então se você estiver interessado em fazer o cursó o mais importante é ter um bom entendimento de alguns conceitos e de técnicas de exploração. Algumas das fontes que podem ser utilizadas como referência do que é preciso saber:
+Eu trabalho há um tempo com segurança da informação e já trabalhei com programação e com redes no passado então tenho uma certa facilidade em entender cenários e códigos com até certo grau de complexidade. Entendo que todos que gostam muito de estudar e se dediquem de verdade podem fazer o curso desde estejam dispostos a perder muitas noites de sono e paciência. Então se você estiver interessado em fazer o curso o mais importante é ter um bom entendimento de alguns conceitos e de técnicas de exploração. Algumas das fontes que podem ser utilizadas como referência do que é preciso saber:
 
 * [Metasploit: The Penetration Tester's Guide] 
 
@@ -68,9 +68,7 @@ No geral o curso é muito bom e realmente te faz sentir que uma meta foi atingid
 away.ca
 
 outros reviews:
-
 http://blog.andradesoto.com.br/archives/2013/08/19/certificacao-oscp/
-
 http://buffered.io/posts/oscp-and-me/
 
 
