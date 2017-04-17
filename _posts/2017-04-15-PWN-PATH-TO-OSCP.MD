@@ -68,7 +68,9 @@ No geral o curso é muito bom e realmente te faz sentir que uma meta foi atingid
 away.ca
 
 outros reviews:
+
 http://blog.andradesoto.com.br/archives/2013/08/19/certificacao-oscp/
+
 http://buffered.io/posts/oscp-and-me/
 
 
