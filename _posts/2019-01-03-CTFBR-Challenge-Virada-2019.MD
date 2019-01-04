@@ -1,7 +1,7 @@
 ---
 layout: post
 title: CTF-BR Challenge da Virada 2018-2019 (hall-of-fame)
-description: Challenge da Virada 2018-2019 CTF-BR para hall-of-fame
+description: Challenge da Virada 2018-2019 CTF-BR para Hall of Fame
 keywords: ctf-br, hall-of-fame, forensics
 tags: [CTF-BR]
 ---
