@@ -86,7 +86,7 @@ Binário carregado no IDA, para ver as strigs **SHIFT+F12**.
 
 Logo de cara vemos o que interessa :)
 
-![ida](../assets/imgs/01-ida-strings.png "Strings no IDA")
+![ida](../assets/imgs/01-ida-strings.PNG "Strings no IDA")
 
 Adiantando um pouco as coisas, a mensagem: **Santa really doesn't like this. You are getting coal from now on!** é identificada quando a aplicação está rodando sobre um debuger, o famoso anti-debug.
 
@@ -94,7 +94,7 @@ Para não pular e dar essa mensagem, basta - em runtime - modificar o salto [js]
  para **0** que segue a comparação sem executar o trecho abaixo.
 
 
-![salto](../assets/imgs/02-salto-anti-debug.png "Salto anti-debug")
+![salto](../assets/imgs/02-salto-anti-debug.PNG "Salto anti-debug")
 
 
 
