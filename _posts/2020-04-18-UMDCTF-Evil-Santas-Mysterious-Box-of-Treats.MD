@@ -68,7 +68,7 @@ Como eu prefiro tudo nas telinhas do windows, vamos preparar para o remote debug
 Basicamente eu...
 ```
 1 - Copio o arquivo linux_server64 que está na pasta do IDA;
-2 - Deixo na pasta onde meu ELF será debugado;
+2 - Deixo na pasta onde meu ELF será debugado - no linux;
 3 - Executo o ./linux_server64;
 4 - Copio o ELF para o windows;
 5 - Abro o ELF no IDA;
@@ -82,7 +82,7 @@ Tudo configurado, let's go!
 
 ## [ 0x2 - Análise ]
 
-Binário carregado no IDA, para ver as strigs **SHIFT+F12**.
+Binário carregado no IDA, para ver as strings **SHIFT+F12**.
 
 Logo de cara vemos o que interessa :)
 
@@ -121,11 +121,11 @@ Enter code here: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn
 EDGFIHKJMLONQPSRUTWVYX[Z]\edgfihkjmlonqp
 ```
 
-E uma parte importante do código é onde ele compara a string printada na tela - que é o código que eu digitei com algumas modificações - com uma string em hardcode no binário, essa comparação é feita na imagem abaixo.
+A validação é feita comparando a string printada na tela - que é o código que eu digitei com algumas modificações - com uma string em hardcode no binário. É possível ver na imagem abaixo.
 
 ![chave](../assets/imgs/03-compara-codigo.png "Compara código de entrada")
 
-Na imagem acima é possível ver o registrador **r11** com o valor **0x45** que é igual a **69 decimal** e também é igual a letra **E** em ASCII, letra ao qual começa a strings gerada pelo programa - meu código digitado, porém, alterado.
+Na imagem acima é possível ver no endereço de memória o valor **0x58** que é um **X** e no registrador **r11** o valor **0x45** que é igual a **69 decimal** e também é igual a letra **E** em ASCII, letra ao qual começa a strings gerada pelo programa - meu código digitado, porém, alterado.
 
 Ao final dessas comparações a string que deve ser gerada é essa: **XY5IU5TKNZvV][92PX:5Q[9YZ5Ts]XThQ7]zVJ2A**
 
@@ -145,7 +145,7 @@ Minha entrada 3:		abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN
 Codigo gerado 3:		edgfihkjmlonqpsrutwvyx{z}|EDGFIHKJMLONQP
 ```
 
-Basicamente o que entendi foi que:
+Basicamente o que entendi com isso:
 - Se for **ímpar** soma 4.
 - Se for **par** soma 2.
 
@@ -176,7 +176,7 @@ print resultKey
 
 Após executar o script, obtenho a string: **VU1EQ1RGLXtTYW50NV81MW5UX1RoYVRfM3YxTH0=**
 
-Como essa strings não tem cara de flag, tentei decodar com base64, e...
+Como essa string não tem cara de flag, tentei decodar com base64, e...
 
 ```
 root@kali:~# echo VU1EQ1RGLXtTYW50NV81MW5UX1RoYVRfM3YxTH0= | base64 --decode
