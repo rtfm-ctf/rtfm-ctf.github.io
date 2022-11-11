@@ -13,7 +13,7 @@
   
 
   <title>
-      Events · RTFM
+      c0dz3r0 (200pts) - AUSTCERT 2015 · RTFM
   </title>
 
   
@@ -22,9 +22,9 @@
   
 
   <meta name="description" content="
-      Brazilian CTF Team
+      Challenge c0d3z3r0 (200pts) of CTF AUSTCERT 2015
   "/>
-  <meta name="keywords" content="rtfm events ctf">
+  <meta name="keywords" content="c0dz3r0 austcert, austcert 2015, austcert writeup">
   <meta name="author" content="Red Team Freakin' Maniacs">
 
   <meta name="HandheldFriendly" content="True">
@@ -36,15 +36,19 @@
 
   <!-- Social: Facebook / Open Graph -->
   
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="Red Team Freakin' Maniacs">
+  <meta property="article:section" content="">
+  <meta property="article:tag" content="c0dz3r0 austcert, austcert 2015, austcert writeup">
+  <meta property="article:published_time" content="2015-06-05 00:00:00 -0300">
   
-  <meta property="og:url" content="http://localhost:4000/events">
+  <meta property="og:url" content="http://localhost:4000/2015/c0d3z3r0-AusCERT-2015">
   <meta property="og:title" content="
-      Events · RTFM
+      c0dz3r0 (200pts) - AUSTCERT 2015 · RTFM
   ">
   <meta property="og:image" content="http://localhost:4000">
   <meta property="og:description" content="
-      Brazilian CTF Team
+      Challenge c0d3z3r0 (200pts) of CTF AUSTCERT 2015
   ">
   <meta property="og:site_name" content="Red Team Freakin' Maniacs">
   <meta property="og:locale" content="en_US">
@@ -53,19 +57,19 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@rtfmctf">
   <meta name="twitter:title" content="
-      Events · RTFM
+      c0dz3r0 (200pts) - AUSTCERT 2015 · RTFM
   ">
   <meta name="twitter:description" content="
-      Brazilian CTF Team
+      Challenge c0d3z3r0 (200pts) of CTF AUSTCERT 2015
   ">
   <meta name="twitter:image:src" content="http://localhost:4000">
 
   <!-- Social: Google+ / Schema.org  -->
   <meta itemprop="name" content="
-      Events · RTFM
+      c0dz3r0 (200pts) - AUSTCERT 2015 · RTFM
   ">
   <meta itemprop="description" content="
-      Brazilian CTF Team
+      Challenge c0d3z3r0 (200pts) of CTF AUSTCERT 2015
   ">
   <meta itemprop="image" content="http://localhost:4000">
 
@@ -76,7 +80,7 @@
   <meta name="wot-verification" content="6da2597a332a1fadad8f"/>
 
   <!-- Canonical link tag -->
-  <link rel="canonical" href="http://localhost:4000/events">
+  <link rel="canonical" href="http://localhost:4000/2015/c0d3z3r0-AusCERT-2015">
   <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:4000/feed.xml">
 
   <link rel="stylesheet" href="/assets/css/main.css">
@@ -126,67 +130,44 @@
       </div>
 
       <div class="container content">
-        <div class="page">
-  <div class="page-top-meta">
-    <h1 class="page-title">Events</h1>
+        <div class="post">
+  <div class="post-top-meta">
+    <div class="post-date">June 05, 2015 &middot; <span class="reading-time" title="Estimated Reading Time">
+  
+  
+    1 minute read
+  
+</span>
+</div>
+    <h1 class="post-title">c0dz3r0 (200pts) - AUSTCERT 2015</h1>
   </div>
 
-  <p>Security activities that we organized as main contributors:</p>
+  <ul>
+  <li><strong>CTF:</strong> AusCERT 2015 CTF</li>
+  <li><strong>Challenge:</strong> c0dz3r0</li>
+  <li><strong>Category:</strong> Stego (200 points)</li>
+  <li><strong>Author:</strong> warl0ck gam3z</li>
+  <li><strong>Solved by:</strong> RTFM[ChOkO]</li>
+</ul>
 
 <hr />
-
 <blockquote>
-  <p>2022 <strong>Latin.sec LatinoWare,</strong>  Brazil</p>
+  <p>Description: I found this the other day and thought you might be interested. Check it out by clicking <a href="http://wgzlivelabs-c0d3z3r0.gam3z.com">here</a>.   <br />
+<em>**</em></p>
 </blockquote>
 
-<blockquote>
-  <p>2019 <strong>Cloud Security Cup Fiap Festival,</strong> Brazil</p>
-</blockquote>
+<p>A descrição deste desafio informa que o t0k3n encontra-se na página: <a href="http://wgzlivelabs-c0d3z3r0.gam3z.com">http://wgzlivelabs-c0d3z3r0.gam3z.com</a>. Acessando a página do desafio, a imagem de fundo nos chama a atenção:<br />
+<img src="https://ctf-br.org/wp-content/uploads/2015/06/background_1.png" alt="background" title="background" /></p>
 
-<blockquote>
-  <p>2019 <strong>Hack the ATM H2HC(Hackers 2 Hackers Conference),</strong> Brazil<br />
-*Non competitive CTF/No rewarding</p>
-</blockquote>
+<p>Realizamos o download da imagem bgrnd.png para análise:<br />
+<img src="https://ctf-br.org/wp-content/uploads/2015/06/background_2-1024x300.png" alt="bgrnd.png" title="bgrnd.png" /></p>
 
-<blockquote>
-  <p>2018 <strong>Hack the ATM - Digital Bank Simulation H2HC(Hackers 2 Hackers Conference),</strong> Brazil</p>
-</blockquote>
+<p>Suspeitamos que a flag está oculta no código de barras, então executamos o utilitário zbarimg que confirma nossa suspeita:<br />
+<img src="https://ctf-br.org/wp-content/uploads/2015/06/flag.png" alt="flag.png" title="flag.png" /></p>
 
-<blockquote>
-  <p>2018 <strong>Latin.sec LatinoWare,</strong>  Brazil</p>
-</blockquote>
-
-<blockquote>
-  <p>2017 <strong>Hackversity H2HC(Hackers 2 Hackers Conference) - Attack and Defense CTF,</strong> Brazil</p>
-</blockquote>
-
-<blockquote>
-  <p>2017 <strong>LuckyCTF 8dot8,</strong> Chile</p>
-</blockquote>
-
-<blockquote>
-  <p>2017 <strong>Tierra Del Fuego AndSec,</strong> Argentina</p>
-</blockquote>
-
-<blockquote>
-  <p>2017 <strong>CryptoChaos Cryptorave,</strong> Brazil</p>
-</blockquote>
-
-<blockquote>
-  <p>2016 <strong>Hackversity H2HC(Hackers 2 Hackers Conference)</strong>, Brazil</p>
-</blockquote>
-
-<blockquote>
-  <p>2016 <strong>Tierra Del Fuego AndSec,</strong> Argentina</p>
-</blockquote>
-
-<blockquote>
-  <p>2016 <strong>CryptoChaos Cryptorave,</strong> Brazil</p>
-</blockquote>
-
-<blockquote>
-  <p>2016 <strong>Fatecnologia FATEC São Caetano do Sul,</strong> Brazil</p>
-</blockquote>
+<ul>
+  <li>the t0k3n y0u s33k is: d9e40ff6b10a722f</li>
+</ul>
 
 
 </div>

@@ -15,9 +15,9 @@ keywords: about, rtfm, ctf, hacking
 <div style="-webkit-column-count: 3; -moz-column-count: 3; column-count: 3;">
 	Arthur <b>SCR34M0</b><br/>
 	Breno <b>c0r1ng4</b><br/>
-	Bruna <b><font color="#FF00FF">d4Ck</font></b><br/>
+	Bruna <b>d4Ck</b><br/>
 	Daniel <b>0i*</b><br/>
-	Douglas <b>AwAy</b><br/>
+	Douglas <b>away.ca</b><br/>
 	Eddy <b>Warflop</b><br/>
 	Gabriel <b>astutejoe</b><br/>
 	Gilson <b>n1ckyr0m3r0</b><br/>

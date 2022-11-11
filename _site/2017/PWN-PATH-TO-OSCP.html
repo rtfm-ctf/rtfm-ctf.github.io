@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" class="no-js">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+  
+  
+
+  <title>
+      PWK [OSCP] - The [a]way to success! · RTFM
+  </title>
+
+  
+  
+
+  
+
+  <meta name="description" content="
+      Pwning OSCP - Curso da OffensiveSecurity
+  "/>
+  <meta name="keywords" content="oscp, pwk, rtfm, offsec, review, away">
+  <meta name="author" content="Red Team Freakin' Maniacs">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+
+  
+  
+  
+
+  <!-- Social: Facebook / Open Graph -->
+  
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="Red Team Freakin' Maniacs">
+  <meta property="article:section" content="">
+  <meta property="article:tag" content="oscp, pwk, rtfm, offsec, review, away">
+  <meta property="article:published_time" content="2017-04-15 00:00:00 -0300">
+  
+  <meta property="og:url" content="http://localhost:4000/2017/PWN-PATH-TO-OSCP">
+  <meta property="og:title" content="
+      PWK [OSCP] - The [a]way to success! · RTFM
+  ">
+  <meta property="og:image" content="http://localhost:4000">
+  <meta property="og:description" content="
+      Pwning OSCP - Curso da OffensiveSecurity
+  ">
+  <meta property="og:site_name" content="Red Team Freakin' Maniacs">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Social: Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@rtfmctf">
+  <meta name="twitter:title" content="
+      PWK [OSCP] - The [a]way to success! · RTFM
+  ">
+  <meta name="twitter:description" content="
+      Pwning OSCP - Curso da OffensiveSecurity
+  ">
+  <meta name="twitter:image:src" content="http://localhost:4000">
+
+  <!-- Social: Google+ / Schema.org  -->
+  <meta itemprop="name" content="
+      PWK [OSCP] - The [a]way to success! · RTFM
+  ">
+  <meta itemprop="description" content="
+      Pwning OSCP - Curso da OffensiveSecurity
+  ">
+  <meta itemprop="image" content="http://localhost:4000">
+
+  <meta name="msapplication-TileColor" content="#f3f3f3">
+  <meta name="theme-color" content="#ffffff">
+
+  <meta name="google-site-verification" content="aSavCGGU0uSN5HEHnI7ZiMqVKxn7mfUPCGMVJvmDQ1w" />
+  <meta name="wot-verification" content="6da2597a332a1fadad8f"/>
+
+  <!-- Canonical link tag -->
+  <link rel="canonical" href="http://localhost:4000/2017/PWN-PATH-TO-OSCP">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://localhost:4000/feed.xml">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+
+  <script src="/assets/js/modernizr.custom.js"></script>
+
+  <!--[if lt IE 9]>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+    <script src="/assets/js/rem.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body>
+
+    <div class="wrap">
+      <div class="master-nav">
+        <div class="nav">
+            <ul class="top-menu">
+              <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+              <li><a href="/about.html"><i class="fa fa-user"></i> About</a></li>
+              <li><a href="/writeups.html"><i class="fa fa-file-text"></i> Writeups</a></li>
+              <li><a href="/events.html"><i class="fa fa-trophy"></i> Events</a></li>
+            </ul>
+        </div>
+      </div>
+
+      <div class="masthead">
+        <div class="container">
+          <h2 class="masthead-title">
+            <p align="center"><img src='/assets/logo.png' width="130px" height="130px" /></p>
+            <a href="/" title="Home">Red Team Freakin' Maniacs</a>
+            <small></small>
+          </h2>
+
+          <div class="footer-social-links">
+  <a href="https://www.facebook.com/RedTeamFreakinManiacs" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+  <a href="https://twitter.com/rtfmctf" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+  <a href="https://github.com/rtfm-ctf" title="GitHub" target="_blank"><i class="fa fa-github-alt"></i></a>
+  <a href="https://ctftime.org/team/16856" title="CTFTime"><i class="fa fa-terminal"></i></a>
+  <a href="mailto:contato@rtfm-ctf.org" title="Contact"><i class="fa fa-comment-o"></i></a>
+</div>
+
+
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <div class="post-top-meta">
+    <div class="post-date">April 15, 2017 &middot; <span class="reading-time" title="Estimated Reading Time">
+  
+  
+    6 minutes read
+  
+</span>
+</div>
+    <h1 class="post-title">PWK [OSCP] - The [a]way to success!</h1>
+  </div>
+
+  <h3 id="sobre-o-pwk-oscp---the-away-to-success">Sobre o PWK [OSCP] - The [a]way to success!</h3>
+
+<p>Bom… resolvi escrever esse pequeno texto e dar minha opinião sobre o reconhecido curso da Offensive Security, o PWK, um dos cursos mais desafiadores aí entre os cursos de “intro” no desenvolvimento das técnicas que um profissional precisa ter para executar testes de invasão (pentest). 
+Primeiramente, se o leitor pensa que este é um curso e prova para poucos e que ele tem um nível de dificuldade muito elevado, em resposta curta podemos afirmar que talvez e não. Na realidade o curso não é difícil. Ele é complicado, trabalhoso e exige boas horas investidas para conseguir resultado. A prova é difícil, mas apenas se você não se preparar bem. Não é uma prova impossível (na realidade, é de longe a prova mais divertida que eu já fiz até o momento). É um curso muito interessante e que valeu muito o investimento, então recomendo, por exemplo, que entre CEH e OSCP as pessoas escolham pelo OSCP.</p>
+
+<h3 id="o-curso">O Curso</h3>
+<p>O curso nada mais é que a reserva de um período para acesso ao laboratório de treinamento (contendo em torno de 60 sistemas vulneráveis) + material de estudos (vídeos e PDF). 
+Não tem instrutor nenhum, apenas você e o suporte da OffSec. 
+O material é bem completo mas o conhecimento aplicado no laboratório exige uns 40% a mais do que está no material. Não é um curso indicado para quem não consegue aprender por conta (e nunca vai ser). A ideia por trás do curso é que você consiga entender conceitos e adaptar aos diferentes cenários que um pentester pode enfrentar, sem que alguém diga o que deve ser feito. Um outro detalhe importante é que há uma recomendação forte de que o estudante saiba razoavelmente Inglês, já que tudo no curso é 100% na língua inglesa.</p>
+
+<p><img src="https://www.offensive-security.com/images/pwk-lab-net-intro1.png" alt="PWK Laboratório" /></p>
+
+<h3 id="tempo-de-curso">Tempo de Curso</h3>
+<p>Eu passei alguns meses aguardando o melhor momento para fazer o curso, pelos reviews que lemos em inglês podemos chegar à conclusão de que há uma necessidade muito grande de dedicação de horas para completar os desafios, então escolhi, e recomendo, pegar o período de férias de trabalho/faculdade/escola.</p>
+<ul>
+  <li>Agendei o inicio do curso para 25 de dezembro de 2016, reservando 60 dias de curso, como o pessoal indica.</li>
+  <li>Durante as férias, dediquei de 8 a 10 horas do dia pwning no laboratório. As férias duraram 2 semanas, logo em seguida tive que voltar ao trabalho, então passei a dedicar de 5 a 6 horas por dia. Os fins de semana foram todos fazendo lab. 
+Levando esse ritmo, é possível comprometer todos os alvos disponíveis no laboratório com uma sobra de 2 semanas para acabar o tempo de acesso.</li>
+</ul>
+
+<h3 id="a-prova">A prova</h3>
+<p>Não posso dar muitos detalhes sobre a prova, o que posso afirmar com certeza é que foi a prova mais divertida que eu já fiz até o momento. É melhor do que qualquer prova escrita/assinalada, é o tipo de prova que te faz sentir, ao final, que você realmente superou uma barreira, e isso é sensacional. A prova tem o total 48 horas. São 24 horas dedicadas a uma prova prática baseada no laboratório do curso, em seguida, mais 24 horas dedicadas a elaboração de um relatório detalhado das atividades executadas na prova e dos resultados obtidos.</p>
+
+<p>Eu tive que fazer a prova duas vezes. Na primeira, eu cometi alguns erros e acabei não atingido a nota que precisava. O principal erro foi não documentar devidamente o processo todo. O segundo erro foi não ter “try harder” e ter apagado no meio da prova, perdendo muito tempo. 
+Cronograma básico do que rolou:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hr</th>
+      <th>comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10:00 am</td>
+      <td>Comecei a prova.</td>
+    </tr>
+    <tr>
+      <td>11:50 am</td>
+      <td>Marquei 30% da pontuação.</td>
+    </tr>
+    <tr>
+      <td>16:00 pm</td>
+      <td>Marquei 60% da pontuação.</td>
+    </tr>
+    <tr>
+      <td>22:00 pm</td>
+      <td>Saí do computador pra andar e descansar.</td>
+    </tr>
+    <tr>
+      <td>00:30 am</td>
+      <td>Capotei.</td>
+    </tr>
+    <tr>
+      <td>05:40 am</td>
+      <td>Voltei pra prova.</td>
+    </tr>
+    <tr>
+      <td>06:30 am</td>
+      <td>Marquei 70% da pontuação (agora eu conseguiria passar).</td>
+    </tr>
+    <tr>
+      <td>09:45 am</td>
+      <td>Fim da prova.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Depois dessas 24 hrs eu voltei para documentar, já tendo em mente que talvez tivesse que fazer novamente a prova. Apesar de saber que talvez não tinha passado, ainda valeu a pena ter enviado toda a documentação. O pessoal me deu uma resposta compreensiva sobre o que eu deveria melhorar ou tomar cuidado na próxima prova.</p>
+
+<p>Na segunda tentativa, eu comecei a prova as 10am e fiz mais da pontuação que precisava em menos de 12 horas, depois documentei tudo com maior profundidade e detalhamento. 
+A resposta pode vir em até 3 dias úteis, mas normalmente já vem no dia seguinte.</p>
+
+<p>Meu conhecimento e experiência: 
+Eu trabalho há um tempo com segurança da informação e já trabalhei com programação e com redes no passado, então tenho uma certa facilidade em entender cenários e códigos com até certo grau de complexidade. Entendo a que todos que gostam muito de estudar e que se dediquem de verdade possam fazer o curso, desde que estejam dispostos a perder algumas noites de sono. Então, se estiver interessado em fazer o curso, o mais importante é ter um bom entendimento de alguns conceitos e de técnicas de exploração. Algumas das fontes que podem ser utilizadas como referência do que é preciso saber:</p>
+
+<ul>
+  <li>
+    <p><a href="https://www.amazon.com/Metasploit-Penetration-Testers-David-Kennedy/dp/159327288X/ref=sr_1_1?ie=UTF8&amp;qid=1492297200&amp;sr=8-1&amp;keywords=metasploit">Metasploit: The Penetration Tester’s Guide</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.amazon.com/Penetration-Testing-Hands-Introduction-Hacking/dp/1593275641/ref=sr_1_3?ie=UTF8&amp;qid=1492297153&amp;sr=8-3&amp;keywords=pentest">Penetration Testing: A Hands-On Introduction to Hacking</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.amazon.com/Hacking-Art-Exploitation-Jon-Erickson/dp/1593271441/ref=sr_1_1?ie=UTF8&amp;qid=1492297164&amp;sr=8-1&amp;keywords=hacking">Hacking: The Art of Exploitation, 2nd Edition</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.amazon.com/Rtfm-Red-Team-Field-Manual/dp/1494295504/ref=sr_1_2?ie=UTF8&amp;qid=1492297153&amp;sr=8-2&amp;keywords=pentest">Rtfm: Red Team Field Manual</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.amazon.com/Web-Application-Hackers-Handbook-Exploiting/dp/1118026470/ref=sr_1_1?ie=UTF8&amp;qid=1492297179&amp;sr=8-1&amp;keywords=the+web+application+hacker%27s+handbook">The Web Application Hacker’s Handbook: Finding and Exploiting Security Flaws</a></p>
+  </li>
+</ul>
+
+<p>Além desses livros, eu recomendo ler artigos e estar atualizado com o que está em discussão pela comunidade.</p>
+
+<p>No geral, o curso é muito bom e realmente te faz sentir que uma meta foi atingida, mas também não é nada muito complexo. Eu conheço muitas pessoas que manjam muito mais do que é cobrado no curso e que ficam dizendo que o curso é difícil, quando na verdade não é tão complexo assim. Meu objetivo com esse post foi deixar meu relato e meu agradecimento ao pessoal da Offensive Security (porque sempre estiveram no IRC pra me dizer “try harder”, bando de #@$#@!@#!@ :P). Espero também que eu possa, de alguma forma, ter ajudado qualquer pessoa atrás de informações sobre o curso, mesmo sabendo que já existem muitos posts sobre o curso na internet, eu decidi escrever esse em pt_br para galera pt_br que quer matar esse chall. Não me fez melhor que ninguém e não vai fazer ninguém melhor que ninguém. Na cena de sec, a OSCP é uma certificação bem diferente das outras e vale a pena estudar.</p>
+
+<p>away.ca</p>
+
+<p>Outros reviews:</p>
+
+<p><a href="http://blog.andradesoto.com.br/archives/2013/08/19/certificacao-oscp/">http://blog.andradesoto.com.br/archives/2013/08/19/certificacao-oscp/</a></p>
+
+<p><a href="http://buffered.io/posts/oscp-and-me/">http://buffered.io/posts/oscp-and-me/</a></p>
+
+
+
+</div>
+<div class="back"><a href="/"><i class="fa fa-chevron-left"></i> Back to Homepage</a></div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+	<div class="hrline"></div>
+	<div class="copyright"><br>&copy; 2022 Red Team Freakin' Maniacs</div>
+</div>
+
+<script>
+$(window).load(function() {
+	$('.grid').masonry({
+		itemSelector: '.grid-item',
+		columnWidth: '.grid-sizer',
+		gutter: 10
+	});
+});
+</script>
+
+
+  </body>
+</html>
