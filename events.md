@@ -7,9 +7,11 @@ Security activities that we organized as main contributors:
 
 -----
 
-> 2022 **Latin.sec LatinoWare,** Sao Paulo, 🇧🇷  
+> 2022 **Latin.sec LatinoWare,** Parana, 🇧🇷  
 
 > 2019 **Cloud Security Cup Fiap Festival,** Sao Paulo, 🇧🇷  
+
+> 2019 **Latin.sec LatinoWare,** Parana, 🇧🇷  
 
 > 2019 **Hack the ATM H2HC(Hackers 2 Hackers Conference),** Sao Paulo, 🇧🇷  
 > *Non competitive CTF/No rewarding  
